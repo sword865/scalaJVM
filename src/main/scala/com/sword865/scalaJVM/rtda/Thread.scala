@@ -7,7 +7,7 @@ import scala.collection.mutable
   */
 
 object Thread{
-  def apply: Thread = {
+  def apply(): Thread = {
     new Thread(new Stack(1024))
   }
 }

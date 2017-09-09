@@ -1,5 +1,7 @@
 package com.sword865.scalaJVM.classfile
 
+import com.sword865.scalaJVM.classfile.attributeInfos.CodeAttribute
+
 /**
   * Created by tianhaowei on 2017/9/6.
   */
@@ -23,4 +25,6 @@ object MemberInfo {
 class MemberInfo(cp: ConstantPool, val accessFlags: Int, nameIndex: Int, descriptorIndex: Int, attributes: Array[AttributeInfo] ) {
   def name: String = cp.getUtf8(nameIndex)
   def descriptor: String = cp.getUtf8(descriptorIndex)
+  def CodeAttribute: CodeAttribute =
+    attributes.find(x=>x.isInstanceOf[CodeAttribute]).map(x=>x.asInstanceOf[CodeAttribute]).orNull
 }

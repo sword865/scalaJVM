@@ -2,6 +2,8 @@ package com.sword865.scalaJVM.rtda
 
 import java.nio.ByteBuffer
 
+import scala.reflect.ClassTag
+
 /**
   * Created by tianhaowei on 2017/9/8.
   */
@@ -22,6 +24,35 @@ class LocalVars(slots: Array[Any]){
 
   def update(i:Int, value: Any): Unit = {
     slots(i) = value
+  }
+
+  def get[T](index: Int)(implicit ev: ClassTag[T]): T ={
+    val value = if(ev == manifest[Int]){
+      getInt(index)
+    }else if(ev ==manifest[Float]){
+      getFloat(index)
+    }else if(ev == manifest[Double]){
+      getDouble(index)
+    }else if(ev == manifest[Long]) {
+      getLong(index)
+    }else{
+      getRef(index)
+    }
+    value.asInstanceOf[T]
+  }
+
+  def set[T](index: Int, value: T)(implicit ev: ClassTag[T]): Unit ={
+    if(ev == manifest[Int]){
+      setInt(index, value.asInstanceOf[Int])
+    }else if(ev ==manifest[Float]){
+      setFloat(index, value.asInstanceOf[Float])
+    }else if(ev == manifest[Double]){
+      setDouble(index, value.asInstanceOf[Double])
+    }else if(ev == manifest[Long]) {
+      setLong(index, value.asInstanceOf[Long])
+    }else{
+      setRef(index, value.asInstanceOf[AnyRef)
+    }
   }
 
   def setInt(index: Int, value: Int): Unit ={

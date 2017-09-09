@@ -2,6 +2,8 @@ package com.sword865.scalaJVM.rtda
 
 import java.nio.ByteBuffer
 
+import scala.reflect.ClassTag
+
 /**
   * Created by tianhaowei on 2017/9/8.
   */
@@ -17,6 +19,35 @@ object OperandStack {
 }
 
 class OperandStack(slots: Array[Any], var size: Int = 0) {
+
+  def pop[T](implicit ev: ClassTag[T]): T ={
+    val value = if(ev == manifest[Int]){
+      popInt()
+    }else if(ev ==manifest[Float]){
+      popFloat()
+    }else if(ev == manifest[Double]){
+      popDouble()
+    }else if(ev == manifest[Long]) {
+      popLong()
+    }else{
+      popRef()
+    }
+    value.asInstanceOf[T]
+  }
+
+  def push[T](value: T)(implicit ev: ClassTag[T]): Unit ={
+    if(ev == manifest[Int]){
+      pushInt(value.asInstanceOf[Int])
+    }else if(ev ==manifest[Float]){
+      pushFloat(value.asInstanceOf[Float])
+    }else if(ev == manifest[Double]){
+      pushDouble(value.asInstanceOf[Double])
+    }else if(ev == manifest[Long]) {
+      pushLong(value.asInstanceOf[Long])
+    }else{
+      pushRef(value.asInstanceOf[AnyRef)
+    }
+  }
 
   def pushInt(value: Int): Unit ={
     slots(size) = value
@@ -81,5 +112,14 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     size -= 1
     slots(size).asInstanceOf[AnyRef]
   }
-  
+
+  def pushSlot(value: Any): Unit = {
+    slots(size) = value
+    size += 1
+  }
+
+  def popSlot(): Any = {
+    size -= 1
+    slots(size)
+  }
 }

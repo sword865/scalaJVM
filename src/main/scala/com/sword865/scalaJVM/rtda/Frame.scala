@@ -10,4 +10,5 @@ object Frame{
   }
 }
 
-class Frame(var lower: Frame, val localVars: LocalVars, val operandStack: OperandStack)
+class Frame(var lower: Frame, val localVars: LocalVars, val operandStack: OperandStack,
+            var thread: Thread=null, var nextPC: Int=0)
