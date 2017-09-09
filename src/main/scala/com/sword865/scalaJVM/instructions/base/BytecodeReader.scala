@@ -1,7 +1,7 @@
 package com.sword865.scalaJVM.instructions.base
 
 
-class BytecodeReader(var code: Array[Byte]=_ , var pc: Int=0) {
+class BytecodeReader(var code: Array[Byte]=null , var pc: Int=0) {
 
   def reset(code0: Array[Byte], pc0: Int): Unit ={
     code = code0

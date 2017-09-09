@@ -45,7 +45,7 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     }else if(ev == manifest[Long]) {
       pushLong(value.asInstanceOf[Long])
     }else{
-      pushRef(value.asInstanceOf[AnyRef)
+      pushRef(value.asInstanceOf[AnyRef])
     }
   }
 

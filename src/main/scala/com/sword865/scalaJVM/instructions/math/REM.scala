@@ -20,25 +20,25 @@ object REM {
     override def zero: Int = 0
     override def rem(x: Int, y: Int): Int = x % y
   }
-  val intRem = new IntRem
+  implicit val intRem = new IntRem
 
   class FloatRem extends RemNumeric[Float]{
     override def zero: Float = 0.0F
     override def rem(x: Float, y: Float): Float = x % y
   }
-  val floatRem = new FloatRem
+  implicit val floatRem = new FloatRem
 
   class DoubleRem extends RemNumeric[Double]{
     override def zero: Double = 0.0
     override def rem(x: Double, y: Double): Double = x % y
   }
-  val doubleRem = new DoubleRem
+  implicit val doubleRem = new DoubleRem
 
   class LongRem extends RemNumeric[Long]{
     override def zero: Long = 0L
     override def rem(x: Long, y: Long): Long = x % y
   }
-  val longRem = new LongRem
+  implicit val longRem = new LongRem
 
 }
 

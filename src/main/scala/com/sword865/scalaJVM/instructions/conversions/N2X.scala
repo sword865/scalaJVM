@@ -45,6 +45,9 @@ object N2X{
     override def convert(t: Int): Int = t & 0xFFFF
   }
 
+  class L2I extends N2X[Long, Int]{
+    override def convert(t: Long): Int = (t & 0xFFFFFFFFL).toInt
+  }
   class L2D extends N2X[Long, Double]{
     override def convert(t: Long): Double = t.toDouble
   }

@@ -51,7 +51,7 @@ class LocalVars(slots: Array[Any]){
     }else if(ev == manifest[Long]) {
       setLong(index, value.asInstanceOf[Long])
     }else{
-      setRef(index, value.asInstanceOf[AnyRef)
+      setRef(index, value.asInstanceOf[AnyRef])
     }
   }
 
