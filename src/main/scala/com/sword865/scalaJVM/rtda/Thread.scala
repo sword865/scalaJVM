@@ -26,4 +26,8 @@ class Thread(stack: Stack, var pc: Int=0) {
     stack.top()
   }
 
+  def newFrame(maxLocals: Int, maxStack: Int): Frame = {
+    new Frame(LocalVars(maxLocals), OperandStack(maxStack),this)
+  }
+
 }

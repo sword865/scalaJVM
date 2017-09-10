@@ -19,6 +19,7 @@ object OperandStack {
 }
 
 class OperandStack(slots: Array[Any], var size: Int = 0) {
+  override def toString: String = f"OperandStack(size=$size, value=${slots.mkString(",")})"
 
   def pop[T](implicit ev: ClassTag[T]): T ={
     val value = if(ev == manifest[Int]){

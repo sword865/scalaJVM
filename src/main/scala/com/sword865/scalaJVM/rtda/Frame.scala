@@ -6,9 +6,9 @@ package com.sword865.scalaJVM.rtda
 
 object Frame{
   def apply(maxLocals: Int, maxStack: Int): Frame = {
-    new Frame(null, LocalVars(maxLocals), OperandStack(maxStack))
+    new Frame(LocalVars(maxLocals), OperandStack(maxStack))
   }
 }
 
-class Frame(var lower: Frame, val localVars: LocalVars, val operandStack: OperandStack,
-            var thread: Thread=null, var nextPC: Int=0)
+class Frame(val localVars: LocalVars, val operandStack: OperandStack,
+            var thread: Thread=null, var nextPC: Int=0, var lower: Frame=null)

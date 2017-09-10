@@ -20,6 +20,8 @@ object LocalVars {
 
 class LocalVars(slots: Array[Any]){
 
+  override def toString: String = f"LocalVars(${slots.mkString(",")})"
+
   def apply(i: Int): Any = slots(i)
 
   def update(i:Int, value: Any): Unit = {

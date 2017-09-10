@@ -12,8 +12,8 @@ object Interpret {
     val maxStack = codeAttr.maxStack
     val bytecode = codeAttr.code
 
-    val frame = Frame(maxLocals, maxStack)
     val thread = rtda.Thread()
+    val frame = thread.newFrame(maxLocals, maxStack)
     thread.pushFrame(frame)
 
     loop(thread, bytecode)
@@ -23,17 +23,26 @@ object Interpret {
     val frame = thread.popFrame()
     val reader = new BytecodeReader()
     while(true){
-      val pc = frame.nextPC
-      thread.pc = pc
+      try {
 
-      reader.reset(bytecode, pc)
-      val opcode = reader.readUInt8()
-      val inst = InstructionFactory.newInstruction(opcode)
-      inst.fetchOperands(reader)
-      frame.nextPC = reader.pc
+        val pc = frame.nextPC
+        thread.pc = pc
 
-      println(f"pc:$pc inst:${inst.toString}")
-      inst.execute(frame)
+        reader.reset(bytecode, pc)
+        val opcode = reader.readUInt8()
+        val inst = InstructionFactory.newInstruction(opcode)
+        inst.fetchOperands(reader)
+        frame.nextPC = reader.pc
+
+        println(f"pc:$pc inst:${inst.toString}")
+        inst.execute(frame)
+      }catch{
+        case e: Throwable =>
+          println(e.getMessage)
+          println(frame.localVars)
+          println(frame.operandStack)
+          throw e
+      }
     }
   }
 

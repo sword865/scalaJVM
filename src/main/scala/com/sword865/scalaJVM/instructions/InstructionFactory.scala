@@ -589,7 +589,7 @@ object InstructionFactory {
       // case 0xfe => impdep1
       // case 0xff => impdep2
       case _ =>
-        throw new Exception(f"Unsupported opcode => 0x$opcode!")
+        throw new Exception(f"Unsupported opcode => 0x$opcode%x!")
     }
   }
 }
