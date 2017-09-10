@@ -6,10 +6,10 @@ import com.sword865.scalaJVM.rtda.Frame
 import scala.reflect.ClassTag
 
 object MUL{
-  type DMUL = MUL[Double]
-  type FMUL = MUL[Float]
-  type IMUL = MUL[Int]
-  type LMUL = MUL[Long]
+  class DMUL extends MUL[Double]
+  class FMUL extends MUL[Float]
+  class IMUL extends MUL[Int]
+  class LMUL extends MUL[Long]
 }
 
 class MUL[@specialized(Double, Float, Int, Long) T](implicit num: Numeric[T], implicit val ev: ClassTag[T])

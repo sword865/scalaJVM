@@ -7,21 +7,21 @@ import scala.reflect.ClassTag
 
 
 object CONST {
-  type ACONST_NULL = CONST[AnyRef, ZERO]
-  type DCONST_0 = CONST[Double, ZERO]
-  type DCONST_1 = CONST[Double, ONE]
-  type FCONST_0 = CONST[Float, ZERO]
-  type FCONST_1 = CONST[Float, ONE]
-  type FCONST_2 = CONST[Float, TWO]
-  type ICONST_M1 = CONST[Int, MONE]
-  type ICONST_0 = CONST[Int, ZERO]
-  type ICONST_1 = CONST[Int, ONE]
-  type ICONST_2 = CONST[Int, TWO]
-  type ICONST_3 = CONST[Int, THREE]
-  type ICONST_4 = CONST[Int, FOUR]
-  type ICONST_5 = CONST[Int, FIVE]
-  type LCONST_0 = CONST[Long, ZERO]
-  type LCONST_1 = CONST[Long, ONE]
+  class ACONST_NULL extends CONST[AnyRef, ZERO]
+  class DCONST_0 extends CONST[Double, ZERO]
+  class DCONST_1 extends CONST[Double, ONE]
+  class FCONST_0 extends CONST[Float, ZERO]
+  class FCONST_1 extends CONST[Float, ONE]
+  class FCONST_2 extends CONST[Float, TWO]
+  class ICONST_M1 extends CONST[Int, MONE]
+  class ICONST_0 extends CONST[Int, ZERO]
+  class ICONST_1 extends CONST[Int, ONE]
+  class ICONST_2 extends CONST[Int, TWO]
+  class ICONST_3 extends CONST[Int, THREE]
+  class ICONST_4 extends CONST[Int, FOUR]
+  class ICONST_5 extends CONST[Int, FIVE]
+  class LCONST_0 extends CONST[Long, ZERO]
+  class LCONST_1 extends CONST[Long, ONE]
 }
 
 class CONST[T, V <: VALUE](implicit val ev: ClassTag[T], implicit val vev: ClassTag[V])

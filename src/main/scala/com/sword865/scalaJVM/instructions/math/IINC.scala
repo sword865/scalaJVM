@@ -16,4 +16,6 @@ class IINC extends Instruction{
     val localVars = frame.localVars
     localVars.setInt(index, localVars.getInt(index) + const)
   }
+
+  override def toString: String = f"IINC(index=$index, const=$const)"
 }

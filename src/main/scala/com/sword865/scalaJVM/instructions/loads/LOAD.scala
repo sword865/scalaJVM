@@ -5,11 +5,11 @@ import com.sword865.scalaJVM.rtda.Frame
 import scala.reflect.ClassTag
 
 object LOAD{
-  type ALOAD = LOAD[AnyRef]
-  type DLOAD = LOAD[Double]
-  type FLOAD = LOAD[Float]
-  type ILOAD = LOAD[Int]
-  type LLOAD = LOAD[Long]
+  class ALOAD extends LOAD[AnyRef]
+  class DLOAD extends LOAD[Double]
+  class FLOAD extends LOAD[Float]
+  class ILOAD extends LOAD[Int]
+  class LLOAD extends LOAD[Long]
 }
 
 class LOAD[T](implicit val ev: ClassTag[T]) extends Index8Instruction{

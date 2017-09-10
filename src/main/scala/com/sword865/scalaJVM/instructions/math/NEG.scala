@@ -6,10 +6,10 @@ import scala.reflect.ClassTag
 
 
 object NEG{
-  type DNEG = NEG[Double]
-  type FNEG = NEG[Float]
-  type INEG = NEG[Int]
-  type LNEG = NEG[Long]
+  class DNEG extends NEG[Double]
+  class FNEG extends NEG[Float]
+  class INEG extends NEG[Int]
+  class LNEG extends NEG[Long]
 }
 
 

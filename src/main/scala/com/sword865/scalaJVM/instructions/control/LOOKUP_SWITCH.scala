@@ -28,4 +28,7 @@ class LOOKUP_SWITCH extends Instruction{
     }
     Instruction.branch(frame, defaultOffset)
   }
+
+  override def toString: String =
+    f"LOOKUP_SWITCH(defaultOffset=$defaultOffset, npairs=$npairs, matchOffsets=${matchOffsets.mkString(",")}})"
 }

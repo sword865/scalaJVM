@@ -66,4 +66,6 @@ class WIDE extends Instruction{
   override def execute(frame: Frame): Unit = {
     modifiedInstruction.execute(frame)
   }
+
+  override def toString: String = s"WIDE(modifiedInstruction=${modifiedInstruction.toString})"
 }

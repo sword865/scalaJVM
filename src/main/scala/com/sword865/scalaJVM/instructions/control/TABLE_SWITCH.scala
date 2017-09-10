@@ -27,4 +27,7 @@ class TABLE_SWITCH extends Instruction{
     }
     Instruction.branch(frame, offset)
   }
+
+  override def toString: String =
+    f"LOOKUP_SWITCH(defaultOffset=$defaultOffset, low=$low, high=$high, jumpOffsets=${jumpOffsets.mkString(",")}})"
 }

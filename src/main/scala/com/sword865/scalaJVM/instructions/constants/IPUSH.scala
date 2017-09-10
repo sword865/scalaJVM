@@ -6,8 +6,8 @@ import com.sword865.scalaJVM.rtda.Frame
 import scala.reflect.ClassTag
 
 object IPUSH{
-  type BIPUSH =IPUSH[Byte]
-  type SIPUSH =IPUSH[Short]
+  class BIPUSH extends IPUSH[Byte]
+  class SIPUSH extends IPUSH[Short]
 }
 
 class IPUSH[T](implicit val ev: ClassTag[T]) extends Instruction{
@@ -23,4 +23,6 @@ class IPUSH[T](implicit val ev: ClassTag[T]) extends Instruction{
   override def execute(frame: Frame): Unit = {
     frame.operandStack.pushInt(value.toInt)
   }
+
+  override def toString: String = f"${this.getClass.getSimpleName}(value=$value)"
 }

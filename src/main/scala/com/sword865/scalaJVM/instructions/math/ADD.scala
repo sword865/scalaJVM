@@ -7,10 +7,10 @@ import scala.reflect.ClassTag
 
 
 object ADD{
-  type DADD = ADD[Double]
-  type FADD = ADD[Float]
-  type IADD = ADD[Int]
-  type LADD = ADD[Long]
+  class DADD extends ADD[Double]
+  class FADD extends ADD[Float]
+  class IADD extends ADD[Int]
+  class LADD extends ADD[Long]
 }
 
 class ADD[@specialized(Double, Float, Int, Long) T](implicit num: Numeric[T], implicit val ev: ClassTag[T])

@@ -7,12 +7,12 @@ import com.sword865.scalaJVM.rtda.Frame
 import scala.reflect.ClassTag
 
 object DUP_N_X{
-  type DUP = DUP_N_X[ONE, ZERO]
-  type DUP_X1 = DUP_N_X[ONE, ONE]
-  type DUP_X2 = DUP_N_X[ONE, TWO]
-  type DUP2 = DUP_N_X[TWO, ZERO]
-  type DUP2_X1 = DUP_N_X[TWO, ONE]
-  type DUP2_X2 = DUP_N_X[TWO, TWO]
+  class DUP extends DUP_N_X[ONE, ZERO]
+  class DUP_X1 extends DUP_N_X[ONE, ONE]
+  class DUP_X2 extends DUP_N_X[ONE, TWO]
+  class DUP2 extends DUP_N_X[TWO, ZERO]
+  class DUP2_X1 extends DUP_N_X[TWO, ONE]
+  class DUP2_X2 extends DUP_N_X[TWO, TWO]
 }
 
 class DUP_N_X[N<:VALUE, X <: VALUE](implicit val nev: ClassTag[N], implicit val xev: ClassTag[X])

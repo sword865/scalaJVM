@@ -13,4 +13,6 @@ class GOTO_W extends Instruction{
   override def execute(frame: Frame): Unit = {
     Instruction.branch(frame, offset)
   }
+
+  override def toString: String = f"GOTO_W(offset=$offset)"
 }

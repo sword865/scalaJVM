@@ -6,10 +6,10 @@ import com.sword865.scalaJVM.rtda.Frame
 import scala.reflect.ClassTag
 
 object SUB{
-  type DSUB = SUB[Double]
-  type FSUB = SUB[Float]
-  type ISUB = SUB[Int]
-  type LSUB = SUB[Long]
+  class DSUB extends SUB[Double]
+  class FSUB extends SUB[Float]
+  class ISUB extends SUB[Int]
+  class LSUB extends SUB[Long]
 }
 
 class SUB[@specialized(Double, Float, Int, Long) T](implicit num: Numeric[T], implicit val ev: ClassTag[T])

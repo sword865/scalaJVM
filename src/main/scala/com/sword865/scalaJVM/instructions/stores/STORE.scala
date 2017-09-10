@@ -6,11 +6,11 @@ import com.sword865.scalaJVM.rtda.Frame
 import scala.reflect.ClassTag
 
 object STORE{
-  type ASTORE = STORE[AnyRef]
-  type DSTORE = STORE[Double]
-  type FSTORE = STORE[Float]
-  type ISTORE = STORE[Int]
-  type LSTORE = STORE[Long]
+  class ASTORE extends STORE[AnyRef]
+  class DSTORE extends STORE[Double]
+  class FSTORE extends STORE[Float]
+  class ISTORE extends STORE[Int]
+  class LSTORE extends STORE[Long]
 }
 
 class STORE[T](implicit val ev: ClassTag[T]) extends Index8Instruction{

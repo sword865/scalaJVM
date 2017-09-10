@@ -56,6 +56,8 @@ object NoOperandsInstruction {
 
 abstract class NoOperandsInstruction extends Instruction{
   override def fetchOperands(reader: BytecodeReader): Unit = {}
+
+  override def toString: String = s"${this.getClass.getSimpleName}()"
 }
 
 abstract class BranchInstruction extends Instruction{
@@ -63,6 +65,7 @@ abstract class BranchInstruction extends Instruction{
   override def fetchOperands(reader: BytecodeReader): Unit = {
     offset = reader.readInt16()
   }
+  override def toString: String = s"${this.getClass.getSimpleName}(offset=$offset)"
 }
 
 abstract class Index8Instruction extends Instruction{
@@ -70,6 +73,7 @@ abstract class Index8Instruction extends Instruction{
   override def fetchOperands(reader: BytecodeReader): Unit = {
     index = reader.readUInt8().toInt
   }
+  override def toString: String = s"${this.getClass.getSimpleName}(index=$index)"
 }
 
 abstract class Index16Instruction extends Instruction{
@@ -77,4 +81,5 @@ abstract class Index16Instruction extends Instruction{
   override def fetchOperands(reader: BytecodeReader): Unit = {
     index = reader.readUInt16()
   }
+  override def toString: String = s"${this.getClass.getSimpleName}(index=$index)"
 }
