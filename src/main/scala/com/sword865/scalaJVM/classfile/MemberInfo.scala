@@ -25,6 +25,6 @@ object MemberInfo {
 class MemberInfo(cp: ConstantPool, val accessFlags: Int, nameIndex: Int, descriptorIndex: Int, attributes: Array[AttributeInfo] ) {
   def name: String = cp.getUtf8(nameIndex)
   def descriptor: String = cp.getUtf8(descriptorIndex)
-  def CodeAttribute: CodeAttribute =
+  def codeAttribute: CodeAttribute =
     attributes.find(x=>x.isInstanceOf[CodeAttribute]).map(x=>x.asInstanceOf[CodeAttribute]).orNull
 }

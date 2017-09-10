@@ -33,7 +33,7 @@ object IF_CMP{
 }
 
 
-abstract class IF_CMP [@specialized(Int) T](implicit val ev: ClassTag[T])
+abstract class IF_CMP[@specialized(Int) T](implicit val ev: ClassTag[T])
   extends BranchInstruction{
 
   def compare(v1: T, v2: T): Boolean

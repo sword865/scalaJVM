@@ -13,6 +13,14 @@ object Instruction{
 abstract class Instruction {
   def fetchOperands(reader: BytecodeReader)
   def execute(frame: rtda.Frame)
+
+  //override def toString: String = {
+    //val classType = getClass
+    //val fields = classType.getDeclaredFields
+    //fields.foreach(_.setAccessible(true))
+    //val filedstr= fields.map(x=>f"${x.getName}, ${x.get(this)}").mkString(",")
+    //f"${classType.getSimpleName}:($filedstr)"
+  //}
 }
 
 object NoOperandsInstruction {

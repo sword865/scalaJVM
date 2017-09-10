@@ -7,7 +7,7 @@ import com.sword865.scalaJVM.instructions.base.BytecodeReader
 
 object Interpret {
   def interpret(methodInfo: MemberInfo): Unit ={
-    val codeAttr = methodInfo.CodeAttribute
+    val codeAttr = methodInfo.codeAttribute
     val maxLocals = codeAttr.maxLocals
     val maxStack = codeAttr.maxStack
     val bytecode = codeAttr.code
@@ -32,7 +32,7 @@ object Interpret {
       inst.fetchOperands(reader)
       frame.nextPC = reader.pc
 
-      println(f"pc:$pc inst:$inst")
+      println(f"pc:$pc inst:${inst.toString}")
       inst.execute(frame)
     }
   }

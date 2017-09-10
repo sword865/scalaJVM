@@ -8,7 +8,7 @@ class Stack(maxSize:Int,var size:Int = 0, var _top: Frame = null) {
     if(size >= maxSize){
       throw new Exception("scalaJVM StackOverflow")
     }
-    if(top != null){
+    if(_top != null){
       frame.lower = _top
     }
     _top = frame
