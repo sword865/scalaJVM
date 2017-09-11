@@ -11,4 +11,5 @@ object ConstantValueAttribute{
   }
 }
 
-class ConstantValueAttribute(constantValueIndex: Int) extends AttributeInfo
+class ConstantValueAttribute(val constantValueIndex: Int) extends AttributeInfo
+}

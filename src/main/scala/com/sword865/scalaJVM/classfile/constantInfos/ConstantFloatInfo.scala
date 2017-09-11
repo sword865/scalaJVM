@@ -13,4 +13,4 @@ object ConstantFloatInfo{
 }
 
 
-class ConstantFloatInfo(value: Float)  extends ConstantInfo
+class ConstantFloatInfo(val value: Float)  extends ConstantInfo

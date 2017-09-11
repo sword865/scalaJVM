@@ -13,4 +13,4 @@ object ConstantLongInfo{
 }
 
 
-class ConstantLongInfo(value: Long) extends ConstantInfo
+class ConstantLongInfo(val value: Long) extends ConstantInfo

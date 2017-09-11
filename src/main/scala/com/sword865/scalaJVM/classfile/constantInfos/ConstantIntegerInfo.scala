@@ -13,4 +13,4 @@ object ConstantIntegerInfo {
 }
 
 
-class ConstantIntegerInfo(value: Int)  extends ConstantInfo
+class ConstantIntegerInfo(val value: Int)  extends ConstantInfo

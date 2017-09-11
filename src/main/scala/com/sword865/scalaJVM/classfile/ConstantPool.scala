@@ -35,6 +35,8 @@ class ConstantPool {
 
   var pool: Array[_ <: ConstantInfo] = _
 
+  def length: Int = pool.length
+
   def initPool(pool: Array[_ <: ConstantInfo]): Unit ={
     this.pool = pool
   }

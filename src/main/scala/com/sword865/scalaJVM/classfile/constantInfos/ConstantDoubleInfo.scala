@@ -13,4 +13,4 @@ object ConstantDoubleInfo{
 }
 
 
-class ConstantDoubleInfo(value: Double)  extends ConstantInfo
+class ConstantDoubleInfo(val value: Double)  extends ConstantInfo

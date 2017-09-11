@@ -1,6 +1,6 @@
 package com.sword865.scalaJVM.classfile
 
-import com.sword865.scalaJVM.classfile.attributeInfos.CodeAttribute
+import com.sword865.scalaJVM.classfile.attributeInfos.{CodeAttribute, ConstantValueAttribute}
 
 /**
   * Created by tianhaowei on 2017/9/6.
@@ -27,4 +27,6 @@ class MemberInfo(cp: ConstantPool, val accessFlags: Int, nameIndex: Int, descrip
   def descriptor: String = cp.getUtf8(descriptorIndex)
   def codeAttribute: CodeAttribute =
     attributes.find(x=>x.isInstanceOf[CodeAttribute]).map(x=>x.asInstanceOf[CodeAttribute]).orNull
+  def constantValueAttribute: ConstantValueAttribute =
+    attributes.find(x=>x.isInstanceOf[ConstantValueAttribute]).map(x=>x.asInstanceOf[ConstantValueAttribute]).orNull
 }
