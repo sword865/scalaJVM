@@ -1,6 +1,8 @@
 package com.sword865.scalaJVM.rtda
 
 package object heap {
+  type Slots = LocalVars
+
   val ACC_PUBLIC = 0x0001 // class field method
   val ACC_PRIVATE = 0x0002 //       field method
   val ACC_PROTECTED = 0x0004 //       field method

@@ -24,7 +24,7 @@ object Field{
 
 
 class Field(memberInfo: MemberInfo, classStruct: ClassStruct,
-            val constValueIndex: Int, val slotId: Int = 0)
+            val constValueIndex: Int, var slotId: Int = 0)
   extends ClassMember(memberInfo, classStruct){
 
   def isVolatile: Boolean =

@@ -45,6 +45,7 @@ object ConstantPool{
   }
 }
 
-class ConstantPool (classStruct: ClassStruct, val consts: Array[Constant]){
+class ConstantPool (val classStruct: ClassStruct, val consts: Array[Constant]){
   def apply(i: Int): Constant = consts.apply(i)
+  def getConstant(i: Int): Constant  = apply(i)
 }

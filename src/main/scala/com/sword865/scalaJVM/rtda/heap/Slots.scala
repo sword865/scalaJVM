@@ -1,5 +1,6 @@
 package com.sword865.scalaJVM.rtda.heap
 
-class Slots {
-
+object Slots{
+  def apply(slotCount: Int): Slots = new Slots(new Array[Any](slotCount))
 }
+
