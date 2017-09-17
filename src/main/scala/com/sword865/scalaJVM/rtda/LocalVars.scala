@@ -111,4 +111,7 @@ class LocalVars(slots: Array[Any]){
     slots(index).asInstanceOf[Object]
   }
 
+  def setSlot(index: Int, value: Any): Unit = {
+    slots(index) = value
+  }
 }

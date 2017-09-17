@@ -5,12 +5,13 @@ import com.sword865.scalaJVM.classpath
 import com.sword865.scalaJVM.classpath.Entry
 import scala.collection.mutable.{Map => MMap}
 object ClassLoader{
-  def apply(cp: classpath.ClassPath): ClassLoader = {
-    new ClassLoader(cp)
+  def apply(cp: classpath.ClassPath, verboseFlag: Boolean=true): ClassLoader = {
+    new ClassLoader(cp, verboseFlag)
   }
 }
 
-class ClassLoader(cp: classpath.ClassPath, classMap: MMap[String, ClassStruct] = MMap[String, ClassStruct]()) {
+class ClassLoader(cp: classpath.ClassPath, verboseFlag: Boolean,
+                  classMap: MMap[String, ClassStruct] = MMap[String, ClassStruct]()) {
   def loadClass(name: String): ClassStruct = {
     classMap.getOrElse(name, loadNonArrayClass(name))
   }
@@ -19,7 +20,9 @@ class ClassLoader(cp: classpath.ClassPath, classMap: MMap[String, ClassStruct] =
     val(entry, data) = readClass(name)
     val classStruct = defineClass(data)
     link(classStruct)
-    println(f"[Loaded $name from $entry]")
+    if(verboseFlag) {
+      println(f"[Loaded $name from $entry]")
+    }
     classStruct
   }
 

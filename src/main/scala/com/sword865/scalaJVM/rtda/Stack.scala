@@ -33,4 +33,7 @@ class Stack(maxSize:Int,var size:Int = 0, var _top: Frame = null) {
     }
     _top
   }
+
+  def isEmpty: Boolean = _top == null
+
 }

@@ -28,6 +28,11 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
                   var superClass: ClassStruct = null, var interfaces: Array[ClassStruct] = null,
                   var instanceSlotCount: Int = 0, var staticSlotCount: Int = 0,
                   var staticVars: Slots = null, var constantPool: ConstantPool = null) {
+  var initStarted = false
+
+  def startInit(): Unit ={
+    initStarted = true
+  }
 
   def isPublic: Boolean = {
     0 != (accessFlags&ACC_PUBLIC)
@@ -69,6 +74,10 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
 
   def getMainMethod: Method ={
     getStaticMethod("main", "([Ljava/lang/String;)V")
+  }
+
+  def getClinitMethod: Method = {
+    getStaticMethod("<clinit>", "()V")
   }
 
   def getStaticMethod(name: String, descriptor: String): Method={
@@ -114,6 +123,14 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
     }else{
       false
     }
+  }
+
+  def isSuperClassOf(other: ClassStruct): Boolean ={
+    other.isSubClassOf(this)
+  }
+
+  def isSuperInterfaceOf(iface: ClassStruct): Boolean ={
+    iface.isSubInterfaceOf(this)
   }
 
   def newObject(): Object = {

@@ -20,6 +20,10 @@ class Thread(stack: Stack, var pc: Int=0) {
     stack.pop()
   }
 
+  def topFrame(): Frame = {
+    stack.top()
+  }
+
   def currentFrame(): Frame = {
     stack.top()
   }
@@ -30,6 +34,10 @@ class Thread(stack: Stack, var pc: Int=0) {
 
   def newFrame(method: heap.Method): Frame = {
     Frame(this, method)
+  }
+
+  def isStackEmpty: Boolean ={
+    stack.isEmpty
   }
 
 }

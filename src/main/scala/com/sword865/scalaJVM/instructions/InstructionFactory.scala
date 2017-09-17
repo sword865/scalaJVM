@@ -551,10 +551,10 @@ object InstructionFactory {
         new INVOKE_VIRTUAL()
       case 0xb7 =>
        	new INVOKE_SPECIAL()
-      // case 0xb8 =>
-      // 	new INVOKE_STATIC()
-      // case 0xb9 =>
-      // 	new INVOKE_INTERFACE()
+      case 0xb8 =>
+        new INVOKE_STATIC()
+      case 0xb9 =>
+        new INVOKE_INTERFACE()
       // case 0xba =>
       // 	new INVOKE_DYNAMIC()
       case 0xbb =>

@@ -124,4 +124,8 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     size -= 1
     slots(size)
   }
+
+  def getRefFromTop(n:Int): Object = {
+    slots(size-1-n).asInstanceOf[Object]
+  }
 }

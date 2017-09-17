@@ -21,4 +21,22 @@ package object heap {
   val ACC_SYNTHETIC = 0x1000 // class field method
   val ACC_ANNOTATION = 0x2000 // class
   val ACC_ENUM = 0x4000 // class field
+
+
+  def lookupMethodInClass(classStruct: ClassStruct, name: String, descriptor: String): Method = {
+    var c = classStruct
+    var method: Method = null
+    while(method==null&&c!=null){
+      method = c.methods.find(m=>m.name==name&&m.descriptor==descriptor).orNull
+      c = c.superClass
+    }
+    method
+  }
+
+  def lookupMethodInInterfaces(ifaces: Array[ClassStruct], name: String, descriptor: String): Method = {
+    ifaces.toStream.map(iface => {
+      val m = iface.methods.find(m => m.name == name && m.descriptor == descriptor)
+      m.getOrElse(lookupMethodInInterfaces(iface.interfaces, name, descriptor))
+    }).find(_!=null).orNull
+  }
 }

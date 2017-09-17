@@ -7,6 +7,7 @@ class ClassMember(memberInfo: MemberInfo, val classStruct: ClassStruct){
   val accessFlags: Int = memberInfo.accessFlags
   val name: String = memberInfo.name
   val descriptor: String = memberInfo.descriptor
+
   def isPublic: Boolean = {
     0 != (accessFlags & ACC_PUBLIC)
   }

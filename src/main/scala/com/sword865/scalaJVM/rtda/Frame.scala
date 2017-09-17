@@ -17,4 +17,9 @@ object Frame{
 
 class Frame(val localVars: LocalVars, val operandStack: OperandStack,
             var thread: Thread=null,var method: heap.Method = null,
-            var nextPC: Int=0, var lower: Frame=null)
+            var nextPC: Int=0, var lower: Frame=null){
+
+  def revertNextPC(): Unit ={
+    nextPC = thread.pc
+  }
+}
