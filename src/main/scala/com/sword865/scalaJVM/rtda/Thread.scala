@@ -1,7 +1,5 @@
 package com.sword865.scalaJVM.rtda
 
-import scala.collection.mutable
-
 /**
   * Created by tianhaowei on 2017/9/8.
   */
@@ -28,6 +26,10 @@ class Thread(stack: Stack, var pc: Int=0) {
 
   def newFrame(maxLocals: Int, maxStack: Int): Frame = {
     new Frame(LocalVars(maxLocals), OperandStack(maxStack),this)
+  }
+
+  def newFrame(method: heap.Method): Frame = {
+    Frame(this, method)
   }
 
 }

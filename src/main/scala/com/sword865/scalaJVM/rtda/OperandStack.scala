@@ -3,6 +3,7 @@ package com.sword865.scalaJVM.rtda
 import java.nio.ByteBuffer
 
 import scala.reflect.ClassTag
+import com.sword865.scalaJVM.rtda.heap.Object
 
 /**
   * Created by tianhaowei on 2017/9/8.
@@ -46,7 +47,7 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     }else if(ev == manifest[Long]) {
       pushLong(value.asInstanceOf[Long])
     }else{
-      pushRef(value.asInstanceOf[AnyRef])
+      pushRef(value.asInstanceOf[Object])
     }
   }
 
@@ -104,14 +105,14 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     ByteBuffer.wrap(bytes).getDouble()
   }
 
-  def pushRef(value: AnyRef): Unit = {
+  def pushRef(value: Object): Unit = {
     slots(size) = value
     size += 1
   }
 
-  def popRef(): AnyRef = {
+  def popRef(): Object = {
     size -= 1
-    slots(size).asInstanceOf[AnyRef]
+    slots(size).asInstanceOf[Object]
   }
 
   def pushSlot(value: Any): Unit = {

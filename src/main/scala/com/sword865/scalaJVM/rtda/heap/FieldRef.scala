@@ -21,7 +21,14 @@ class FieldRef(cp: ConstantPool = null) extends MemberRef(cp){
   def resolveFieldRef(): Unit ={
     val d =  cp.classStruct
     val c = resolvedClass()
-    val field = lookupField(c, name, descriptor)
+    val value = lookupField(c, name, descriptor)
+    if(value == null){
+      throw new Exception("java.lang.NoSuchFieldError")
+    }
+    if(!value.isAccessibleTo(d)){
+      throw new Exception("java.lang.IllegalAccessError")
+    }
+    field = value
   }
 
   def lookupField(c: ClassStruct, name: String, descriptor: String): Field ={
@@ -34,7 +41,7 @@ class FieldRef(cp: ConstantPool = null) extends MemberRef(cp){
         f1.get
       }else if(c.superClass != null){
         lookupField(c.superClass, name, descriptor)
-      }else {
+      }else{
         null
       }
     }

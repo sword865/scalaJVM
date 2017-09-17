@@ -2,21 +2,16 @@ package com.sword865.scalaJVM
 
 import com.sword865.scalaJVM.classfile.MemberInfo
 import com.sword865.scalaJVM.instructions.InstructionFactory
-import com.sword865.scalaJVM.rtda.Frame
+import com.sword865.scalaJVM.rtda.{Frame, heap}
 import com.sword865.scalaJVM.instructions.base.BytecodeReader
 
 object Interpret {
-  def interpret(methodInfo: MemberInfo): Unit ={
-    val codeAttr = methodInfo.codeAttribute
-    val maxLocals = codeAttr.maxLocals
-    val maxStack = codeAttr.maxStack
-    val bytecode = codeAttr.code
 
+  def interpret(method: heap.Method): Unit ={
     val thread = rtda.Thread()
-    val frame = thread.newFrame(maxLocals, maxStack)
+    val frame = thread.newFrame(method)
     thread.pushFrame(frame)
-
-    loop(thread, bytecode)
+    loop(thread, method.code)
   }
 
   def loop(thread: rtda.Thread, bytecode: Array[Byte]): Unit ={

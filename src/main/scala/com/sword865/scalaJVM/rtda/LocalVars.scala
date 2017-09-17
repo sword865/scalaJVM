@@ -3,7 +3,7 @@ package com.sword865.scalaJVM.rtda
 import java.nio.ByteBuffer
 
 import scala.reflect.ClassTag
-
+import com.sword865.scalaJVM.rtda.heap.Object
 /**
   * Created by tianhaowei on 2017/9/8.
   */
@@ -53,7 +53,7 @@ class LocalVars(slots: Array[Any]){
     }else if(ev == manifest[Long]) {
       setLong(index, value.asInstanceOf[Long])
     }else{
-      setRef(index, value.asInstanceOf[AnyRef])
+      setRef(index, value.asInstanceOf[Object])
     }
   }
 
@@ -103,12 +103,12 @@ class LocalVars(slots: Array[Any]){
     ByteBuffer.wrap(bytes).getDouble()
   }
 
-  def setRef(index: Int, value: AnyRef): Unit = {
+  def setRef(index: Int, value: Object): Unit = {
     slots(index) = value
   }
 
-  def getRef(index: Int): AnyRef = {
-    slots(index).asInstanceOf[AnyRef]
+  def getRef(index: Int): Object = {
+    slots(index).asInstanceOf[Object]
   }
 
 }

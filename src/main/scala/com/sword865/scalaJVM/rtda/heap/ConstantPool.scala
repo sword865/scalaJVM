@@ -9,13 +9,9 @@ object ConstantPool{
   def apply(cfCp: classfile.ConstantPool, classStruct: ClassStruct): ConstantPool ={
     var i = 1
     val consts = new Array[Constant](cfCp.length)
+    val rtCp = new ConstantPool(classStruct, consts)
     while(i < cfCp.length) {
       val cpInfo = cfCp(i)
-      if(cpInfo.isInstanceOf[ConstantIntegerInfo]){
-
-      }else if(cpInfo.isInstanceOf[ConstantStringInfo]){
-
-      }
       cpInfo match {
         case c: ConstantIntegerInfo =>
           consts(i) = c.value
@@ -30,18 +26,19 @@ object ConstantPool{
         case c: ConstantStringInfo =>
           consts(i) = c.toString
         case c: ConstantClassInfo =>
-
+          consts(i) = ClassRef(rtCp, c)
         case c: ConstantFieldrefInfo =>
-
+          consts(i) = FieldRef(rtCp, c)
         case c: ConstantMethodrefInfo =>
-
+          consts(i) = MethodRef(rtCp, c)
         case c: ConstantInterfaceMethodrefInfo =>
-
+          consts(i) = InterfaceMethodRef(rtCp, c)
+        case _ =>
       }
 
       i += 1
     }
-    new ConstantPool(classStruct, consts)
+    rtCp
   }
 }
 

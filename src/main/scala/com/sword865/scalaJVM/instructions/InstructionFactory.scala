@@ -2,6 +2,7 @@ package com.sword865.scalaJVM.instructions
 
 import com.sword865.scalaJVM.instructions.base.Instruction
 import com.sword865.scalaJVM.instructions.constants.NOP
+import com.sword865.scalaJVM.instructions.constants.LDC._
 import com.sword865.scalaJVM.instructions.constants.CONST._
 import com.sword865.scalaJVM.instructions.constants.IPUSH._
 import com.sword865.scalaJVM.instructions.loads.LOAD._
@@ -13,7 +14,7 @@ import com.sword865.scalaJVM.instructions.comparisons.IF_CMP._
 import com.sword865.scalaJVM.instructions.comparisons.CMP._
 import com.sword865.scalaJVM.instructions.control._
 import com.sword865.scalaJVM.instructions.conversions.N2X._
-import com.sword865.scalaJVM.instructions.extended.{WIDE,GOTO_W}
+import com.sword865.scalaJVM.instructions.extended.{GOTO_W, WIDE}
 import com.sword865.scalaJVM.instructions.extended.IFYNNULL._
 import com.sword865.scalaJVM.instructions.math.IINC
 import com.sword865.scalaJVM.instructions.math.ADD._
@@ -24,6 +25,7 @@ import com.sword865.scalaJVM.instructions.math.REM._
 import com.sword865.scalaJVM.instructions.math.NEG._
 import com.sword865.scalaJVM.instructions.math.BOOL2._
 import com.sword865.scalaJVM.instructions.math.SH._
+import com.sword865.scalaJVM.instructions.references._
 import com.sword865.scalaJVM.instructions.stack.DUP_N_X._
 import com.sword865.scalaJVM.instructions.stack.POP_N._
 import com.sword865.scalaJVM.instructions.stack.SWAP
@@ -217,12 +219,12 @@ object InstructionFactory {
         new BIPUSH()
       case 0x11 =>
         new SIPUSH()
-      // case 0x12 =>
-      // 	new LDC()
-      // case 0x13 =>
-      // 	new LDC_W()
-      // case 0x14 =>
-      // 	new LDC2_W()
+      case 0x12 =>
+        new LDC()
+      case 0x13 =>
+        new LDC_W()
+      case 0x14 =>
+        new LDC2_W()
       case 0x15 =>
         new ILOAD()
       case 0x16 =>
@@ -537,26 +539,26 @@ object InstructionFactory {
       // 	areturn
       // case 0xb1 =>
       // 	_return
-      //	case 0xb2 =>
-      //		new GET_STATIC()
-      // case 0xb3 =>
-      // 	new PUT_STATIC()
-      // case 0xb4 =>
-      // 	new GET_FIELD()
-      // case 0xb5 =>
-      // 	new PUT_FIELD()
-      //	case 0xb6 =>
-      //		new INVOKE_VIRTUAL()
-      // case 0xb7 =>
-      // 	new INVOKE_SPECIAL()
+      	case 0xb2 =>
+      		new GET_STATIC()
+      case 0xb3 =>
+       	new PUT_STATIC()
+       case 0xb4 =>
+       	new GET_FIELD()
+      case 0xb5 =>
+       	new PUT_FIELD()
+      case 0xb6 =>
+        new INVOKE_VIRTUAL()
+      case 0xb7 =>
+       	new INVOKE_SPECIAL()
       // case 0xb8 =>
       // 	new INVOKE_STATIC()
       // case 0xb9 =>
       // 	new INVOKE_INTERFACE()
       // case 0xba =>
       // 	new INVOKE_DYNAMIC()
-      // case 0xbb =>
-      // 	new NEW()
+      case 0xbb =>
+        new NEW()
       // case 0xbc =>
       // 	new NEW_ARRAY()
       // case 0xbd =>
@@ -565,10 +567,10 @@ object InstructionFactory {
       // 	arraylength
       // case 0xbf =>
       // 	athrow
-      // case 0xc0 =>
-      // 	new CHECK_CAST()
-      // case 0xc1 =>
-      // 	new INSTANCE_OF()
+      case 0xc0 =>
+        new CHECK_CAST()
+      case 0xc1 =>
+        new INSTANCE_OF()
       // case 0xc2 =>
       // 	monitorenter
       // case 0xc3 =>

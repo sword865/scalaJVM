@@ -3,8 +3,8 @@ package com.sword865.scalaJVM.rtda.heap
 import com.sword865.scalaJVM.classfile
 
 object MethodRef{
-  def apply(cp: ConstantPool, refInfo: classfile.constantInfos.ConstantMethodrefInfo): MemberRef = {
-    val ref = new MemberRef(cp)
+  def apply(cp: ConstantPool, refInfo: classfile.constantInfos.ConstantMethodrefInfo): MethodRef = {
+    val ref = new MethodRef(cp)
     ref.copyMemberRefInfo(refInfo)
     ref
   }

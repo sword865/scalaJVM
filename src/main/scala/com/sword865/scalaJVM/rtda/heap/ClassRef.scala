@@ -4,7 +4,7 @@ import com.sword865.scalaJVM.classfile
 
 object ClassRef {
 
-  def apply(classInfo: classfile.constantInfos.ConstantClassInfo, cp: ConstantPool = null): ClassRef = {
+  def apply(cp: ConstantPool, classInfo: classfile.constantInfos.ConstantClassInfo): ClassRef = {
     val ref = new ClassRef(cp)//, classInfo.name, null)
     ref.className = classInfo.name
     ref

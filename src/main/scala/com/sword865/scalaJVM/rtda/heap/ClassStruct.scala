@@ -116,5 +116,8 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
     }
   }
 
+  def newObject(): Object = {
+    Object(this)
+  }
 
 }

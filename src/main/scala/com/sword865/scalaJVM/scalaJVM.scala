@@ -26,23 +26,8 @@ object scalaJVM extends App{
     startJVM()
   }
 
-  def loadClass(className: String, cp: ClassPath): ClassFile ={
-    val readResult = cp.readClass(className)
-    val classData = if(readResult.nonEmpty){
-      readResult.get._2
-    } else{
-      throw new Exception("class file not found exceptions")
-    }
-    ClassFile.parse(classData)
-  }
-
   def startJVM(): Unit = {
     //testOperandStack()
   }
 
-  def getMainMethod(cf: ClassFile): Option[MemberInfo] ={
-    cf.methods.find(m=>
-      m.name == "main" && m.descriptor == "([Ljava/lang/String;)V"
-    )
-  }
 }

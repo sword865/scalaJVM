@@ -2,7 +2,6 @@ package com.sword865.scalaJVM
 
 import com.sword865.scalaJVM.classfile.ClassFile
 import com.sword865.scalaJVM.classpath.ClassPath
-import com.sword865.scalaJVM.scalaJVM.loadClass
 
 object TestClassFile {
 
@@ -16,7 +15,7 @@ object TestClassFile {
     val cp = ClassPath.parse(cmd.xJreOption, cmd.cpOption)
     println("classpath:%s class:%s args:%s".format(cp, cmd.className, cmd.args.mkString(",")))
     val className = cmd.className.replace('.','/')
-    val cf = loadClass(className, cp)
+    val cf = BasicTest.loadClass(className, cp)
     println(cmd.className)
     printClassInfo(cf)
   }
