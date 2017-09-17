@@ -10,7 +10,7 @@ class INVOKE_SPECIAL extends Index16Instruction{
     val cp = currentClass.constantPool
     val methodRef = cp.getConstant(index).asInstanceOf[heap.MethodRef]
     val resolvedClass = methodRef.resolvedClass()
-    val resolvedMethod =methodRef.resolvedMethod()
+    val resolvedMethod = methodRef.resolvedMethod()
     if(resolvedMethod.name == "<init>" && resolvedMethod.classStruct != resolvedClass) {
       throw new Exception("java.lang.NoSuchMethodError")
     }

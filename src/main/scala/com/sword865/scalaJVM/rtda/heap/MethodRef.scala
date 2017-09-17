@@ -23,13 +23,14 @@ class MethodRef (cp: ConstantPool = null) extends MemberRef(cp){
   def resolveMethodRef(): Unit = {
     val d = cp.classStruct
     val c = resolvedClass()
-    val method = lookupMethod(c, name, descriptor)
-    if(method == null){
+    val value = lookupMethod(c, name, descriptor)
+    if(value == null){
       throw new Exception("java.lang.NoSuchMethodError")
     }
-    if(!method.isAccessibleTo(d)){
+    if(!value.isAccessibleTo(d)){
       throw new Exception("java.lang.IllegalAccessError")
     }
+    method = value
   }
 
 

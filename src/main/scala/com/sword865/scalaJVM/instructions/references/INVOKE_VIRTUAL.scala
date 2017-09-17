@@ -19,8 +19,9 @@ class INVOKE_VIRTUAL extends Index16Instruction {
       // hack!
       if(methodRef.name == "println"){
         _println(frame.operandStack, methodRef.descriptor)
+      }else {
+        throw new Exception("java.lang.NullPointerException")
       }
-      throw new Exception("java.lang.NullPointerException")
     }else {
       if(resolvedMethod.isProtected &&
         resolvedMethod.classStruct.isSuperClassOf(currentClass) &&

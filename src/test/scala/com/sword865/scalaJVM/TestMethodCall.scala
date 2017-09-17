@@ -12,7 +12,7 @@ object TestMethodCall {
     val cmd = Cmd.parseCmd(argument).get
     testClassAndObject(cmd)
 
-    val argument2 = Array[String]("-verbose:class", "-verbose:inst",
+    val argument2 = Array[String]( // "-verbose:class", "-verbose:inst",
       "src/test/java/com/sword865/scalaJVM/javafile/FibonacciTest")
     val cmd2 = Cmd.parseCmd(argument2).get
     testClassAndObject(cmd2)

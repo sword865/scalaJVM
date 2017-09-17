@@ -14,7 +14,9 @@ object Interpret {
     try {
       loop(thread, logInst)
     }catch {
-      case _: Throwable => logFrames(thread)
+      case e: Throwable =>
+        logFrames(thread)
+        throw e
     }
   }
 

@@ -12,6 +12,7 @@ import com.sword865.scalaJVM.instructions.stores.STORE_N._
 import com.sword865.scalaJVM.instructions.comparisons.IFCOND._
 import com.sword865.scalaJVM.instructions.comparisons.IF_CMP._
 import com.sword865.scalaJVM.instructions.comparisons.CMP._
+import com.sword865.scalaJVM.instructions.control.BASE_RETURN._
 import com.sword865.scalaJVM.instructions.control._
 import com.sword865.scalaJVM.instructions.conversions.N2X._
 import com.sword865.scalaJVM.instructions.extended.{GOTO_W, WIDE}
@@ -169,12 +170,12 @@ object InstructionFactory {
   val fcmpg   = new FCMPG()
   val dcmpl   = new DCMPL()
   val dcmpg   = new DCMPG()
-  // val ireturn = new IRETURN()
-  // val lreturn = new LRETURN()
-  // val freturn = new FRETURN()
-  // val dreturn = new DRETURN()
-  // val areturn = new ARETURN()
-  // val _return = new RETURN()
+  val ireturn = new IRETURN()
+  val lreturn = new LRETURN()
+  val freturn = new FRETURN()
+  val dreturn = new DRETURN()
+  val areturn = new ARETURN()
+  val _return = new RETURN()
   // val arraylength   = new ARRAY_LENGTH()
   // val athrow        = new ATHROW()
   // val monitorenter  = new MONITOR_ENTER()
@@ -527,20 +528,20 @@ object InstructionFactory {
         new TABLE_SWITCH()
       case 0xab =>
         new LOOKUP_SWITCH()
-      // case 0xac =>
-      // 	ireturn
-      // case 0xad =>
-      // 	lreturn
-      // case 0xae =>
-      // 	freturn
-      // case 0xaf =>
-      // 	dreturn
-      // case 0xb0 =>
-      // 	areturn
-      // case 0xb1 =>
-      // 	_return
-      	case 0xb2 =>
-      		new GET_STATIC()
+      case 0xac =>
+        ireturn
+      case 0xad =>
+       	lreturn
+      case 0xae =>
+       	freturn
+      case 0xaf =>
+       	dreturn
+      case 0xb0 =>
+      	areturn
+      case 0xb1 =>
+        _return
+      case 0xb2 =>
+        new GET_STATIC()
       case 0xb3 =>
        	new PUT_STATIC()
        case 0xb4 =>
