@@ -38,8 +38,8 @@ object ConstantInfo {
       case CONSTANT_Methodref => ConstantMethodrefInfo(reader, cp)
       case CONSTANT_InterfaceMethodref => ConstantInterfaceMethodrefInfo(reader, cp)
       case CONSTANT_NameAndType => ConstantNameAndTypeInfo(reader)
-      case CONSTANT_MethodType => ConstantMethodHandleInfo(reader)
-      case CONSTANT_MethodHandle => ConstantMethodTypeInfo(reader)
+      case CONSTANT_MethodType => ConstantMethodTypeInfo(reader)
+      case CONSTANT_MethodHandle => ConstantMethodHandleInfo(reader)
       case CONSTANT_InvokeDynamic => ConstantInvokeDynamicInfo(reader)
       case _ => throw new Exception("unknow tag exception")
     }

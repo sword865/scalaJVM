@@ -12,8 +12,24 @@ object ClassLoader{
 
 class ClassLoader(cp: classpath.ClassPath, verboseFlag: Boolean,
                   classMap: MMap[String, ClassStruct] = MMap[String, ClassStruct]()) {
+
   def loadClass(name: String): ClassStruct = {
-    classMap.getOrElse(name, loadNonArrayClass(name))
+    classMap.getOrElse(name, if(name(0) == '[') loadArrayClass(name) else loadNonArrayClass(name))
+  }
+
+  def loadArrayClass(name: String): ClassStruct = {
+    val classStruct = new ClassStruct(
+      accessFlags = ACC_PUBLIC,
+      name = name,
+      loader = this,
+      initStarted = true,
+      superClassName = "java/lang/Object",
+      superClass = loadClass("java/lang/Object"),
+      interfaceNames = Array[String]("java/lang/Cloneable", "java/io/Serializable"),
+      interfaces = Array[ClassStruct](loadClass("java/lang/Cloneable"), loadClass("java/io/Serializable"))
+    )
+    classMap(name) = classStruct
+    classStruct
   }
 
   def loadNonArrayClass(name: String): ClassStruct = {

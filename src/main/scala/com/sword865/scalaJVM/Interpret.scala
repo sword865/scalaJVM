@@ -1,16 +1,19 @@
 package com.sword865.scalaJVM
 
-import com.sword865.scalaJVM.classfile.MemberInfo
 import com.sword865.scalaJVM.instructions.InstructionFactory
 import com.sword865.scalaJVM.rtda.{Frame, heap}
 import com.sword865.scalaJVM.instructions.base.{BytecodeReader, Instruction}
 
 object Interpret {
 
-  def interpret(method: heap.Method, logInst: Boolean): Unit ={
+  def interpret(method: heap.Method, logInst: Boolean, args: Array[String]=Array[String]()): Unit ={
     val thread = rtda.Thread()
     val frame = thread.newFrame(method)
     thread.pushFrame(frame)
+
+    val jArgs = createArgsArray(method.classStruct.loader, args)
+    frame.localVars.setRef(0, jArgs)
+
     try {
       loop(thread, logInst)
     }catch {
@@ -20,6 +23,16 @@ object Interpret {
     }
   }
 
+  def createArgsArray(loader: heap.ClassLoader, args: Array[String]): heap.Object = {
+    val stringClass = loader.loadClass("java/lang/String")
+    val argsArr = stringClass.arrayClass().newArray(args.length)
+    var jArgs = argsArr.arr[heap.Object]
+    for(i<-args.indices) {
+      val arg = args.apply(i)
+      jArgs(i) = heap.StringPool.JString(loader, arg)
+    }
+    argsArr
+  }
 
   def loop(thread: rtda.Thread, logInst: Boolean): Unit ={
     val reader = new BytecodeReader()
@@ -53,7 +66,7 @@ object Interpret {
     }
   }
 
-  def logInstruction(frame: Frame, inst: Instruction) = {
+  def logInstruction(frame: Frame, inst: Instruction): Unit = {
     val method = frame.method
     val className = method.classStruct.name
     val methodName = method.name

@@ -52,6 +52,10 @@ class INVOKE_VIRTUAL extends Index16Instruction {
         println(stack.popLong())
       case "(D)V" =>
         println(stack.popDouble())
+      case "(Ljava/lang/String;)V" =>
+        val jStr = stack.popRef()
+        val str = heap.StringPool.getString(jStr)
+        println(str)
       case _ =>
         println("println: " + descriptor)
     }

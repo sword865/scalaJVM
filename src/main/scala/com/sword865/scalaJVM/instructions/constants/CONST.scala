@@ -2,12 +2,13 @@ package com.sword865.scalaJVM.instructions.constants
 
 import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction
 import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction._
-import com.sword865.scalaJVM.rtda.Frame
+import com.sword865.scalaJVM.rtda.{Frame, heap}
+
 import scala.reflect.ClassTag
 
 
 object CONST {
-  class ACONST_NULL extends CONST[AnyRef, ZERO]
+  class ACONST_NULL extends CONST[heap.Object, ZERO]
   class DCONST_0 extends CONST[Double, ZERO]
   class DCONST_1 extends CONST[Double, ONE]
   class FCONST_0 extends CONST[Float, ZERO]

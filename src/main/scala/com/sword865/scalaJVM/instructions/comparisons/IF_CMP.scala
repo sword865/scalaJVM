@@ -1,16 +1,16 @@
 package com.sword865.scalaJVM.instructions.comparisons
 
 import com.sword865.scalaJVM.instructions.base.{BranchInstruction, Instruction}
-import com.sword865.scalaJVM.rtda.Frame
+import com.sword865.scalaJVM.rtda.{Frame, heap}
 
 import scala.reflect.ClassTag
 
 object IF_CMP{
-  class IF_ACMPEQ extends IF_CMP[AnyRef]{
-    override def compare(v1: AnyRef, v2: AnyRef): Boolean = v1 == v2
+  class IF_ACMPEQ extends IF_CMP[heap.Object]{
+    override def compare(v1: heap.Object, v2: heap.Object): Boolean = v1 == v2
   }
-  class IF_ACMPNE extends IF_CMP[AnyRef]{
-    override def compare(v1: AnyRef, v2: AnyRef): Boolean = v1 != v2
+  class IF_ACMPNE extends IF_CMP[heap.Object]{
+    override def compare(v1: heap.Object, v2: heap.Object): Boolean = v1 != v2
   }
   class IF_ICMPEQ extends IF_CMP[Int]{
     override def compare(v1: Int, v2: Int): Boolean = v1 == v2

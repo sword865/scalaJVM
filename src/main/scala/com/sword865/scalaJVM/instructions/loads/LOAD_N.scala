@@ -2,15 +2,15 @@ package com.sword865.scalaJVM.instructions.loads
 
 import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction
 import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction._
-import com.sword865.scalaJVM.rtda.Frame
+import com.sword865.scalaJVM.rtda.{Frame, heap}
 
 import scala.reflect.ClassTag
 
 object LOAD_N{
-  class ALOAD_0 extends LOAD_N[AnyRef,ZERO]
-  class ALOAD_1 extends LOAD_N[AnyRef,ONE]
-  class ALOAD_2 extends LOAD_N[AnyRef,TWO]
-  class ALOAD_3 extends LOAD_N[AnyRef,THREE]
+  class ALOAD_0 extends LOAD_N[heap.Object,ZERO]
+  class ALOAD_1 extends LOAD_N[heap.Object,ONE]
+  class ALOAD_2 extends LOAD_N[heap.Object,TWO]
+  class ALOAD_3 extends LOAD_N[heap.Object,THREE]
   class DLOAD_0 extends LOAD_N[Double,ZERO]
   class DLOAD_1 extends LOAD_N[Double,ONE]
   class DLOAD_2 extends LOAD_N[Double,TWO]

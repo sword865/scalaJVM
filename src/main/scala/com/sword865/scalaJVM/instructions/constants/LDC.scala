@@ -1,19 +1,22 @@
 package com.sword865.scalaJVM.instructions.constants
 
 import com.sword865.scalaJVM.instructions.base.{Index16Instruction, Index8Instruction}
-import com.sword865.scalaJVM.rtda.Frame
+import com.sword865.scalaJVM.rtda.{Frame, heap}
 
 object LDC{
 
   def _ldc(frame: Frame, index: Int): Unit ={
     val stack = frame.operandStack
-    val cp = frame.method.classStruct.constantPool
-    val c = cp.getConstant(index)
+    val classStruct = frame.method.classStruct
+    val c = classStruct.constantPool.getConstant(index)
     c match{
       case c: Int =>
         stack.pushInt(c)
       case c: Float =>
         stack.pushFloat(c)
+      case c: String =>
+        val internedStr = heap.StringPool.JString(classStruct.loader, c)
+        stack.pushRef(internedStr)
       case _ => throw new Exception("todo: ldc!")
     }
   }

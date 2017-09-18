@@ -2,15 +2,15 @@ package com.sword865.scalaJVM.instructions.stores
 
 import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction
 import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction._
-import com.sword865.scalaJVM.rtda.Frame
+import com.sword865.scalaJVM.rtda.{Frame, heap}
 
 import scala.reflect.ClassTag
 
 object STORE_N{
-  class ASTORE_0 extends STORE_N[AnyRef,ZERO]
-  class ASTORE_1 extends STORE_N[AnyRef,ONE]
-  class ASTORE_2 extends STORE_N[AnyRef,TWO]
-  class ASTORE_3 extends STORE_N[AnyRef,THREE]
+  class ASTORE_0 extends STORE_N[heap.Object,ZERO]
+  class ASTORE_1 extends STORE_N[heap.Object,ONE]
+  class ASTORE_2 extends STORE_N[heap.Object,TWO]
+  class ASTORE_3 extends STORE_N[heap.Object,THREE]
   class DSTORE_0 extends STORE_N[Double,ZERO]
   class DSTORE_1 extends STORE_N[Double,ONE]
   class DSTORE_2 extends STORE_N[Double,TWO]

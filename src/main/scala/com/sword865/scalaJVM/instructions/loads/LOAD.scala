@@ -1,11 +1,12 @@
 package com.sword865.scalaJVM.instructions.loads
 
 import com.sword865.scalaJVM.instructions.base.{Index8Instruction, NoOperandsInstruction}
-import com.sword865.scalaJVM.rtda.Frame
+import com.sword865.scalaJVM.rtda.{Frame, heap}
+
 import scala.reflect.ClassTag
 
 object LOAD{
-  class ALOAD extends LOAD[AnyRef]
+  class ALOAD extends LOAD[heap.Object]
   class DLOAD extends LOAD[Double]
   class FLOAD extends LOAD[Float]
   class ILOAD extends LOAD[Int]

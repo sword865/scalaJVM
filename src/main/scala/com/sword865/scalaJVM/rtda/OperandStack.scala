@@ -3,7 +3,6 @@ package com.sword865.scalaJVM.rtda
 import java.nio.ByteBuffer
 
 import scala.reflect.ClassTag
-import com.sword865.scalaJVM.rtda.heap.Object
 
 /**
   * Created by tianhaowei on 2017/9/8.
@@ -23,7 +22,13 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
   override def toString: String = f"OperandStack(size=$size, value=${slots.mkString(",")})"
 
   def pop[T](implicit ev: ClassTag[T]): T ={
-    val value = if(ev == manifest[Int]){
+    val value = if(ev == manifest[Byte]) {
+     popInt().toByte
+    }else if(ev == manifest[Char]){
+     popInt().toChar
+    }else if(ev == manifest[Short]) {
+      popInt().toShort
+    }else if(ev == manifest[Int]){
       popInt()
     }else if(ev ==manifest[Float]){
       popFloat()
@@ -31,14 +36,22 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
       popDouble()
     }else if(ev == manifest[Long]) {
       popLong()
-    }else{
+    }else if(ev == manifest[heap.Object]) {
       popRef()
+    }else{
+      throw new Exception(s"unknow pop type")
     }
     value.asInstanceOf[T]
   }
 
   def push[T](value: T)(implicit ev: ClassTag[T]): Unit ={
-    if(ev == manifest[Int]){
+    if(ev == manifest[Byte]) {
+      pushInt(value.asInstanceOf[Byte].toInt)
+    }else if(ev == manifest[Char]){
+      pushInt(value.asInstanceOf[Char].toInt)
+    }else if(ev == manifest[Short]){
+      pushInt(value.asInstanceOf[Short].toInt)
+    }else if(ev == manifest[Int]){
       pushInt(value.asInstanceOf[Int])
     }else if(ev ==manifest[Float]){
       pushFloat(value.asInstanceOf[Float])
@@ -46,8 +59,10 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
       pushDouble(value.asInstanceOf[Double])
     }else if(ev == manifest[Long]) {
       pushLong(value.asInstanceOf[Long])
+    }else if(ev == manifest[heap.Object]) {
+      pushRef(value.asInstanceOf[heap.Object])
     }else{
-      pushRef(value.asInstanceOf[Object])
+      throw new Exception(s"unknow push type: $value")
     }
   }
 
@@ -105,14 +120,14 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     ByteBuffer.wrap(bytes).getDouble()
   }
 
-  def pushRef(value: Object): Unit = {
+  def pushRef(value: heap.Object): Unit = {
     slots(size) = value
     size += 1
   }
 
-  def popRef(): Object = {
+  def popRef(): heap.Object = {
     size -= 1
-    slots(size).asInstanceOf[Object]
+    slots(size).asInstanceOf[heap.Object]
   }
 
   def pushSlot(value: Any): Unit = {
@@ -125,7 +140,7 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     slots(size)
   }
 
-  def getRefFromTop(n:Int): Object = {
-    slots(size-1-n).asInstanceOf[Object]
+  def getRefFromTop(n:Int): heap.Object = {
+    slots(size-1-n).asInstanceOf[heap.Object]
   }
 }

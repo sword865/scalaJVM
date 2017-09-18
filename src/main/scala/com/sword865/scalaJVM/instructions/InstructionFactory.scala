@@ -17,6 +17,8 @@ import com.sword865.scalaJVM.instructions.control._
 import com.sword865.scalaJVM.instructions.conversions.N2X._
 import com.sword865.scalaJVM.instructions.extended.{GOTO_W, WIDE}
 import com.sword865.scalaJVM.instructions.extended.IFYNNULL._
+import com.sword865.scalaJVM.instructions.loads.XALOAD._
+import com.sword865.scalaJVM.instructions.stores.XASTORE._
 import com.sword865.scalaJVM.instructions.math.IINC
 import com.sword865.scalaJVM.instructions.math.ADD._
 import com.sword865.scalaJVM.instructions.math.DIV._
@@ -69,14 +71,14 @@ object InstructionFactory {
   val aload_1     = new ALOAD_1()
   val aload_2     = new ALOAD_2()
   val aload_3     = new ALOAD_3()
-  // val iaload      = new IALOAD()
-  // val laload      = new LALOAD()
-  // val faload      = new FALOAD()
-  // val daload      = new DALOAD()
-  // val aaload      = new AALOAD()
-  // val baload      = new BALOAD()
-  // val caload      = new CALOAD()
-  // val saload      = new SALOAD()
+  val iaload      = new IALOAD()
+  val laload      = new LALOAD()
+  val faload      = new FALOAD()
+  val daload      = new DALOAD()
+  val aaload      = new AALOAD()
+  val baload      = new BALOAD()
+  val caload      = new CALOAD()
+  val saload      = new SALOAD()
   val istore_0 = new ISTORE_0()
   val istore_1 = new ISTORE_1()
   val istore_2 = new ISTORE_2()
@@ -97,14 +99,14 @@ object InstructionFactory {
   val astore_1 = new ASTORE_1()
   val astore_2 = new ASTORE_2()
   val astore_3 = new ASTORE_3()
-  // val iastore  = new IASTORE()
-  // val lastore  = new LASTORE()
-  // val fastore  = new FASTORE()
-  // val dastore  = new DASTORE()
-  // val aastore  = new AASTORE()
-  // val bastore  = new BASTORE()
-  // val castore  = new CASTORE()
-  // val sastore  = new SASTORE()
+  val iastore  = new IASTORE()
+  val lastore  = new LASTORE()
+  val fastore  = new FASTORE()
+  val dastore  = new DASTORE()
+  val aastore  = new AASTORE()
+  val bastore  = new BASTORE()
+  val castore  = new CASTORE()
+  val sastore  = new SASTORE()
   val pop     = new POP()
   val pop2    = new POP2()
   val dup     = new DUP()
@@ -176,7 +178,7 @@ object InstructionFactory {
   val dreturn = new DRETURN()
   val areturn = new ARETURN()
   val _return = new RETURN()
-  // val arraylength   = new ARRAY_LENGTH()
+  val arraylength   = new ARRAY_LENGTH()
   // val athrow        = new ATHROW()
   // val monitorenter  = new MONITOR_ENTER()
   // val monitorexit   = new MONITOR_EXIT()
@@ -276,22 +278,22 @@ object InstructionFactory {
         aload_2
       case 0x2d =>
         aload_3
-      // case 0x2e =>
-      // 	iaload
-      // case 0x2f =>
-      // 	laload
-      // case 0x30 =>
-      // 	faload
-      // case 0x31 =>
-      // 	daload
-      // case 0x32 =>
-      // 	aaload
-      // case 0x33 =>
-      // 	baload
-      // case 0x34 =>
-      // 	caload
-      // case 0x35 =>
-      // 	saload
+      case 0x2e =>
+      	iaload
+      case 0x2f =>
+      	laload
+      case 0x30 =>
+      	faload
+      case 0x31 =>
+      	daload
+      case 0x32 =>
+      	aaload
+      case 0x33 =>
+      	baload
+      case 0x34 =>
+      	caload
+      case 0x35 =>
+      	saload
       case 0x36 =>
         new ISTORE()
       case 0x37 =>
@@ -342,22 +344,22 @@ object InstructionFactory {
         astore_2
       case 0x4e =>
         astore_3
-      // case 0x4f =>
-      // 	iastore
-      // case 0x50 =>
-      // 	lastore
-      // case 0x51 =>
-      // 	fastore
-      // case 0x52 =>
-      // 	dastore
-      // case 0x53 =>
-      // 	aastore
-      // case 0x54 =>
-      // 	bastore
-      // case 0x55 =>
-      // 	castore
-      // case 0x56 =>
-      // 	sastore
+      case 0x4f =>
+      	iastore
+      case 0x50 =>
+      	lastore
+      case 0x51 =>
+      	fastore
+      case 0x52 =>
+      	dastore
+      case 0x53 =>
+      	aastore
+      case 0x54 =>
+      	bastore
+      case 0x55 =>
+      	castore
+      case 0x56 =>
+      	sastore
       case 0x57 =>
         pop
       case 0x58 =>
@@ -560,12 +562,12 @@ object InstructionFactory {
       // 	new INVOKE_DYNAMIC()
       case 0xbb =>
         new NEW()
-      // case 0xbc =>
-      // 	new NEW_ARRAY()
-      // case 0xbd =>
-      // 	new ANEW_ARRAY()
-      // case 0xbe =>
-      // 	arraylength
+      case 0xbc =>
+      	new NEW_ARRAY()
+      case 0xbd =>
+      	new ANEW_ARRAY()
+      case 0xbe =>
+       	arraylength
       // case 0xbf =>
       // 	athrow
       case 0xc0 =>
@@ -578,8 +580,8 @@ object InstructionFactory {
       // 	monitorexit
       case 0xc4 =>
         new WIDE()
-      // case 0xc5 =>
-      // 	new MULTI_ANEW_ARRAY()
+      case 0xc5 =>
+       	new MULTI_ANEW_ARRAY()
       case 0xc6 =>
         new IFNULL()
       case 0xc7 =>

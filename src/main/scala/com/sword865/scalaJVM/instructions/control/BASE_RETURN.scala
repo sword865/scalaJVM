@@ -1,8 +1,7 @@
 package com.sword865.scalaJVM.instructions.control
 
 import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction
-import com.sword865.scalaJVM.rtda.Frame
-import com.sword865.scalaJVM.rtda.heap.Object
+import com.sword865.scalaJVM.rtda.{Frame, heap}
 
 import scala.reflect.ClassTag
 object BASE_RETURN {
@@ -12,7 +11,7 @@ object BASE_RETURN {
     }
   }
 
-  class ARETURN extends BASE_RETURN[Object]
+  class ARETURN extends BASE_RETURN[heap.Object]
   class DRETURN extends BASE_RETURN[Double]
   class FRETURN extends BASE_RETURN[Float]
   class IRETURN extends BASE_RETURN[Int]

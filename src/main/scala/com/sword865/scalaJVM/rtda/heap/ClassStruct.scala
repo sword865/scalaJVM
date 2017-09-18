@@ -1,7 +1,5 @@
 package com.sword865.scalaJVM.rtda.heap
 
-import javax.management.Descriptor
-
 import com.sword865.scalaJVM.classfile.ClassFile
 
 object ClassStruct {
@@ -19,16 +17,71 @@ object ClassStruct {
     classStruct.constantPool = constantPool
     classStruct
   }
+
+  val primitiveTypes: Map[String, String] = Map[String, String]("void" -> "V", "boolean" -> "Z", "byte" -> "B",
+    "short" -> "S", "int" -> "I", "long" -> "J",
+    "char" -> "C", "float" -> "F", "double" -> "D")
+
+
+  // [XXX => [XXX
+  // int  => I
+  // XXX  => LXXX;
+  def toDecriptor(className: String): String = {
+    if(className(0)=='['){
+      className
+    }else{
+      primitiveTypes.getOrElse(className, s"L$className;")
+    }
+  }
+
+  // [XXX  => [XXX
+  // LXXX; => XXX
+  // I     => int
+  def toClassName(descriptor: String): String = {
+    if(descriptor(0) == '['){
+      descriptor
+    }else if(descriptor(0) == 'L'){
+      descriptor.drop(1).dropRight(1)
+    }else{
+      primitiveTypes.toStream.find(_._2 == descriptor).map(_._1).getOrElse(throw new Exception(s"Invalid descriptor: $descriptor"))
+    }
+  }
+
+  // [XXX -> [[XXX
+  // int -> [I
+  // XXX -> [LXXX;
+  def getArrayClassName(className: String): String = {
+    "[" + toDecriptor(className)
+  }
+
+  // [[XXX -> [XXX
+  // [LXXX; -> XXX
+  // [I -> int
+  def getComponentClassName(className: String): String ={
+    if(className(0) == '['){
+      val compoentTypeDescriptor = className.drop(1)
+      toClassName(compoentTypeDescriptor)
+    }else {
+      throw new Exception(s"Not array: $className")
+    }
+  }
+
 }
 
 
 class ClassStruct(val accessFlags: Int, val name: String, val superClassName: String,
-                  val interfaceNames: Array[String], var fields: Array[Field] = null,
-                  var methods: Array[Method] = null, var loader: ClassLoader = null,
-                  var superClass: ClassStruct = null, var interfaces: Array[ClassStruct] = null,
-                  var instanceSlotCount: Int = 0, var staticSlotCount: Int = 0,
-                  var staticVars: Slots = null, var constantPool: ConstantPool = null) {
-  var initStarted = false
+                  val interfaceNames: Array[String]=null, var initStarted: Boolean = false,
+                  var fields: Array[Field] = null, var methods: Array[Method] = null,
+                  var loader: ClassLoader = null, var superClass: ClassStruct = null,
+                  var interfaces: Array[ClassStruct] = null, var instanceSlotCount: Int = 0,
+                  var staticSlotCount: Int = 0, var staticVars: Slots = null,
+                  var constantPool: ConstantPool = null) {
+
+  def isJioSerializable: Boolean = name == "java/io/Serializable"
+
+  def isJlCloneable:Boolean = name == "java/lang/Cloneable"
+
+  def isJlObject: Boolean = name == "java/lang/Object"
 
   def startInit(): Unit ={
     initStarted = true
@@ -58,6 +111,7 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
   def isEnum: Boolean = {
     0 != (accessFlags&ACC_ENUM)
   }
+  
 
   def isAccessibleTo(other: ClassStruct): Boolean = {
     if(isPublic){
@@ -73,15 +127,31 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
   }
 
   def getMainMethod: Method ={
-    getStaticMethod("main", "([Ljava/lang/String;)V")
+    getMethod("main", "([Ljava/lang/String;)V", true)
   }
 
   def getClinitMethod: Method = {
-    getStaticMethod("<clinit>", "()V")
+    getMethod("<clinit>", "()V", true)
   }
 
-  def getStaticMethod(name: String, descriptor: String): Method={
-    methods.find(m=>m.isStatic&&m.name==name&&m.descriptor==descriptor).orNull
+  def getMethod(name: String, descriptor: String, isStatic: Boolean): Method={
+    var c = this
+    var method: Method = null
+    while(c!=null && method == null){
+      method = c.methods.find(m=>m.name==name&&m.descriptor==descriptor&&m.isStatic==isStatic).orNull
+      c = c.superClass
+    }
+    method
+  }
+
+  def getField(name: String, descriptor: String, isStatic: Boolean): Field ={
+    var c = this
+    var field: Field = null
+    while(c!=null && field == null){
+      field = c.fields.find(f=>f.name==name&&f.descriptor==descriptor&&f.isStatic==isStatic).orNull
+      c = c.superClass
+    }
+    field
   }
 
   def isAssignableFrom(other: ClassStruct): Boolean = {
@@ -89,10 +159,32 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
     if(s==t){
       true
     }else{
-      if(!t.isInterface){
-        s.isSubClassOf(t)
+      if(!s.isArray) {
+        if(!s.isInterface){
+          if(!t.isInterface){
+            s.isSubClassOf(t)
+          }else{
+            s.isImplements(t)
+          }
+        }else{
+          if(!t.isInterface){
+            t.isJlObject
+          }else{
+            t.isSuperInterfaceOf(s)
+          }
+        }
       }else{
-        s.isImplements(t)
+        if(!t.isArray){
+          if(!t.isInterface){
+            t.isJlObject
+          }else{
+            t.isJlCloneable || t.isJioSerializable
+          }
+        }else{
+          val sc = s.componentClass()
+          val tc = t.componentClass()
+          sc == tc || tc.isAssignableFrom(sc)
+        }
       }
     }
   }
@@ -135,6 +227,38 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
 
   def newObject(): Object = {
     Object(this)
+  }
+
+
+  def isArray: Boolean = {
+    name(0) == '['
+  }
+
+  def newArray(count: Int): Object = {
+    if(!isArray){
+      throw new Exception(s"Not array class $name")
+    }
+    name match{
+      case "[Z" => Object(this, new Array[Byte](count))
+      case "[B" => Object(this, new Array[Byte](count))
+      case "[C" => Object(this, new Array[Char](count))
+      case "[S" => Object(this, new Array[Short](count))
+      case "[I" => Object(this, new Array[Int](count))
+      case "[J" => Object(this, new Array[Long](count))
+      case "[F" => Object(this, new Array[Float](count))
+      case "[D" => Object(this, new Array[Double](count))
+      case _ => Object(this, new Array[Object](count))
+    }
+  }
+
+  def arrayClass(): ClassStruct = {
+    val arrayClassName = ClassStruct.getArrayClassName(name)
+    loader.loadClass(arrayClassName)
+  }
+
+  def componentClass(): ClassStruct = {
+    val componentClassName = ClassStruct.getComponentClassName(name)
+    loader.loadClass(componentClassName)
   }
 
 }
