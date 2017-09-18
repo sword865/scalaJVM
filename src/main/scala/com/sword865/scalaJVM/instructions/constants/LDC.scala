@@ -17,6 +17,9 @@ object LDC{
       case c: String =>
         val internedStr = heap.StringPool.JString(classStruct.loader, c)
         stack.pushRef(internedStr)
+      case c: heap.ClassRef =>
+        val classObj = c.resolvedClass().jClass
+        stack.pushRef(classObj)
       case _ => throw new Exception("todo: ldc!")
     }
   }

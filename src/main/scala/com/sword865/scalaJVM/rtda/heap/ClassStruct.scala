@@ -1,6 +1,7 @@
 package com.sword865.scalaJVM.rtda.heap
 
 import com.sword865.scalaJVM.classfile.ClassFile
+import com.sword865.scalaJVM.rtda.heap
 
 object ClassStruct {
   def apply(cf: ClassFile): ClassStruct = {
@@ -75,7 +76,7 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
                   var loader: ClassLoader = null, var superClass: ClassStruct = null,
                   var interfaces: Array[ClassStruct] = null, var instanceSlotCount: Int = 0,
                   var staticSlotCount: Int = 0, var staticVars: Slots = null,
-                  var constantPool: ConstantPool = null) {
+                  var constantPool: ConstantPool = null, var jClass: heap.Object = null) {
 
   def isJioSerializable: Boolean = name == "java/io/Serializable"
 

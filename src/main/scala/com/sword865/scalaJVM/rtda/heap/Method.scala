@@ -4,6 +4,11 @@ import com.sword865.scalaJVM.classfile.MemberInfo
 import com.sword865.scalaJVM.classfile.attributeInfos.CodeAttribute
 
 object Method{
+
+  implicit def int2byte(int: Int): Byte = {
+    int.toByte
+  }
+
   def newMethods(classStruct: ClassStruct, cfMethods: Array[MemberInfo]): Array[Method]={
     cfMethods.map(cfMethod =>
         Method(classStruct, cfMethod)
@@ -27,17 +32,40 @@ object Method{
 class Method (memberInfo: MemberInfo, classStruct: ClassStruct, codeAttr: CodeAttribute)
   extends ClassMember(memberInfo, classStruct){
 
-  val maxStack: Int = if(codeAttr==null) 0 else codeAttr.maxStack
-  val maxLocals: Int = if(codeAttr==null) 0 else codeAttr.maxLocals
-  val code: Array[Byte] = if(codeAttr==null) null else codeAttr.code
+  var maxStack: Int = if(codeAttr==null) 0 else codeAttr.maxStack
+  var maxLocals: Int = if(codeAttr==null) 0 else codeAttr.maxLocals
+  var code: Array[Byte] = if(codeAttr==null) null else codeAttr.code
+  val md: MethodDescriptor = MethodDescriptorParser.parseMethodDescriptor(descriptor)
   val argSlotCount: Int = {
-    val parsedDescriptor = MethodDescriptorParser.parseMethodDescriptor(descriptor)
-    val value = parsedDescriptor.parameterTypes.size+parsedDescriptor.parameterTypes.count(x=>x=="J"||x=="D")
+    val value = md.parameterTypes.size+md.parameterTypes.count(x=>x=="J"||x=="D")
     if(!isStatic){
       // +1 for this reference
       value + 1
     }else{
       value
+    }
+  }
+  if(isNative){
+    injectCodeAttribute(md.returnType)
+  }
+
+  def injectCodeAttribute(returnType: String): Unit ={
+    import Method.int2byte
+    maxStack = 4
+    maxLocals = argSlotCount
+    returnType(0) match{
+      case 'V' =>
+        code = Array[Byte](0xfe, 0xb1) // return
+      case 'L'|'[' =>
+        code = Array[Byte](0xfe, 0xb0) // areturn
+      case 'D' =>
+        code = Array[Byte](0xfe, 0xaf) // dreturn
+      case 'F' =>
+        code = Array[Byte](0xfe, 0xae) // freturn
+      case 'J' =>
+        code = Array[Byte](0xfe, 0xad) // lreturn
+      case _ =>
+        code = Array[Byte](0xfe, 0xac) // ireturn
     }
   }
 

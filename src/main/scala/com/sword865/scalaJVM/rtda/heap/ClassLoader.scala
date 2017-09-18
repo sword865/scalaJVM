@@ -6,15 +6,42 @@ import com.sword865.scalaJVM.classpath.Entry
 import scala.collection.mutable.{Map => MMap}
 object ClassLoader{
   def apply(cp: classpath.ClassPath, verboseFlag: Boolean=true): ClassLoader = {
-    new ClassLoader(cp, verboseFlag)
+    val loader = new ClassLoader(cp, verboseFlag)
+    loader.loadBasicClasses()
+    loader.loadPrimitiveClasses()
+    loader
   }
 }
 
 class ClassLoader(cp: classpath.ClassPath, verboseFlag: Boolean,
                   classMap: MMap[String, ClassStruct] = MMap[String, ClassStruct]()) {
 
+  def loadBasicClasses(): Unit ={
+    val jlClassClass = loadClass("java/lang/Class")
+    classMap.values.filter(_.jClass==null).foreach(classStruct => {
+      classStruct.jClass = jlClassClass.newObject()
+      classStruct.jClass.extra = classStruct
+    })
+  }
+
+  def loadPrimitiveClasses(): Unit ={
+    ClassStruct.primitiveTypes.keys.foreach(loadPrimitiveClass)
+  }
+
+  def loadPrimitiveClass(className: String): Unit ={
+    val classStruct = new ClassStruct(accessFlags=ACC_PUBLIC, name=className, superClassName=null, loader=this, initStarted=true)
+    classStruct.jClass = classMap("java/lang/Class").newObject()
+    classStruct.jClass.extra = classStruct
+    classMap(className) = classStruct
+  }
+
   def loadClass(name: String): ClassStruct = {
-    classMap.getOrElse(name, if(name(0) == '[') loadArrayClass(name) else loadNonArrayClass(name))
+    val classStruct = classMap.getOrElse(name, if(name(0) == '[') loadArrayClass(name) else loadNonArrayClass(name))
+    if(classMap.contains("java/lang/Class")) {
+      classStruct.jClass = classMap("java/lang/Class").newObject()
+      classStruct.jClass.extra = classStruct
+    }
+    classStruct
   }
 
   def loadArrayClass(name: String): ClassStruct = {

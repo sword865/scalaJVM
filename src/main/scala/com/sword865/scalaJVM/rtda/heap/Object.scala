@@ -14,6 +14,9 @@ object Object{
 }
 
 class Object(val classStruct: ClassStruct, private val data: Any) {
+
+  var extra: Any = _
+
   def isInstanceOf(classStruct: ClassStruct): Boolean ={
     classStruct.isAssignableFrom(classStruct)
   }
