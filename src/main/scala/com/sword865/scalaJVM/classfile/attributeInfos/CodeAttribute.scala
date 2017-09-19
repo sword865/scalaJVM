@@ -20,7 +20,12 @@ object CodeAttribute{
 
 class CodeAttribute(cp: ConstantPool,val maxStack: Int,val maxLocals: Int,val code: Array[Byte],
                     val exceptionTable: Array[ExceptionTableEntry], val attributes: Array[AttributeInfo])
-  extends AttributeInfo
+  extends AttributeInfo{
+
+  def lineNumberTableAttribute: LineNumberTableAttribute = {
+    attributes.find(_.isInstanceOf[LineNumberTableAttribute]).map(_.asInstanceOf[LineNumberTableAttribute]).orNull
+  }
+}
 
 object ExceptionTableEntry{
 

@@ -17,6 +17,7 @@ class INVOKE_NATIVE extends NoOperandsInstruction{
   lang.Double.init()
   lang.String.init()
   lang.System.init()
+  lang.StackTraceElement.init()
   misc.VM.init()
 
   override def execute(frame: Frame): Unit = {

@@ -11,6 +11,13 @@ object Thread{
 }
 
 class Thread(stack: Stack, var pc: Int=0) {
+  def getFrames: Array[Frame] = stack.getFrames
+
+
+  def clearStack():Unit ={
+    stack.clear()
+  }
+
 
   def pushFrame(frame: Frame): Unit = {
     stack.push(frame)

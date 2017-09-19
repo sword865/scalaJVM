@@ -1,8 +1,7 @@
 package com.sword865.scalaJVM.rtda.heap
 
 import com.sword865.scalaJVM.classfile.MemberInfo
-import com.sword865.scalaJVM.classfile.attributeInfos.CodeAttribute
-
+import com.sword865.scalaJVM.classfile.attributeInfos.{CodeAttribute, LineNumberTableAttribute}
 object Method{
 
   implicit def int2byte(int: Int): Byte = {
@@ -29,13 +28,15 @@ object Method{
 }
 
 
-class Method (memberInfo: MemberInfo, classStruct: ClassStruct, codeAttr: CodeAttribute)
+class Method(memberInfo: MemberInfo, classStruct: ClassStruct, codeAttr: CodeAttribute)
   extends ClassMember(memberInfo, classStruct){
 
   var maxStack: Int = if(codeAttr==null) 0 else codeAttr.maxStack
   var maxLocals: Int = if(codeAttr==null) 0 else codeAttr.maxLocals
   var code: Array[Byte] = if(codeAttr==null) null else codeAttr.code
+  val lineNumberTable: LineNumberTableAttribute = if(codeAttr==null) null else codeAttr.lineNumberTableAttribute
   val md: MethodDescriptor = MethodDescriptorParser.parseMethodDescriptor(descriptor)
+  val exceptionTable: ExceptionTable = if(codeAttr==null) null else ExceptionTable(codeAttr.exceptionTable, classStruct.constantPool)
   val argSlotCount: Int = {
     val value = md.parameterTypes.size+md.parameterTypes.count(x=>x=="J"||x=="D")
     if(!isStatic){
@@ -82,4 +83,22 @@ class Method (memberInfo: MemberInfo, classStruct: ClassStruct, codeAttr: CodeAt
   def isStrict: Boolean =
     0 != (accessFlags & ACC_STRICT)
 
+  def findExceptionHandler(exClass: ClassStruct, pc :Int): Int = {
+    val handler = exceptionTable.findExceptionHandler(exClass,pc)
+    if(handler!=null){
+      handler.handlerPc
+    }else{
+      -1
+    }
+  }
+
+  def getLineNumber(pc: Int): Int = {
+    if(isNative){
+      -2
+    }else if(lineNumberTable == null){
+      -1
+    }else{
+      lineNumberTable.getLineNumber(pc)
+    }
+  }
 }

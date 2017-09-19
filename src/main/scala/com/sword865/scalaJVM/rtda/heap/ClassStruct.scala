@@ -4,6 +4,16 @@ import com.sword865.scalaJVM.classfile.ClassFile
 import com.sword865.scalaJVM.rtda.heap
 
 object ClassStruct {
+
+  def getSourceFile(cf: ClassFile): String = {
+    val sfAttr = cf.sourceFileAttribute
+    if(sfAttr!=null){
+      sfAttr.fileName
+    }else{
+      "Unknown"
+    }
+  }
+
   def apply(cf: ClassFile): ClassStruct = {
     val accessFlags = cf.accessFlags
     val name = cf.className
@@ -11,11 +21,12 @@ object ClassStruct {
     val interfaceNames = cf.interfaceNames()
     val classStruct = new ClassStruct(accessFlags, name, superClassName, interfaceNames)
     val fields = Field.newFields(classStruct, cf.fields)
-    val methods = Method.newMethods(classStruct, cf.methods)
-    val constantPool = ConstantPool(cf.constantPool, classStruct)
     classStruct.fields = fields
-    classStruct.methods = methods
+    val constantPool = ConstantPool(cf.constantPool, classStruct)
     classStruct.constantPool = constantPool
+    val methods = Method.newMethods(classStruct, cf.methods)
+    classStruct.methods = methods
+    classStruct.sourceFile = getSourceFile(cf)
     classStruct
   }
 
@@ -75,7 +86,7 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
                   var fields: Array[Field] = Array[Field](), var methods: Array[Method] = Array[Method](),
                   var loader: ClassLoader = null, var superClass: ClassStruct = null,
                   var interfaces: Array[ClassStruct] = Array[ClassStruct](), var instanceSlotCount: Int = 0,
-                  var staticSlotCount: Int = 0, var staticVars: Slots = null,
+                  var staticSlotCount: Int = 0, var staticVars: Slots = null, var sourceFile:String = null,
                   var constantPool: ConstantPool = null, var jClass: heap.Object = null) {
 
   def isPrimitive: Boolean = {

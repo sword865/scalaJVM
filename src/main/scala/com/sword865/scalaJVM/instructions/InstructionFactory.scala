@@ -180,7 +180,7 @@ object InstructionFactory {
   val areturn = new ARETURN()
   val _return = new RETURN()
   val arraylength   = new ARRAY_LENGTH()
-  // val athrow        = new ATHROW()
+  val athrow        = new ATHROW()
   // val monitorenter  = new MONITOR_ENTER()
   // val monitorexit   = new MONITOR_EXIT()
   val invoke_native = new INVOKE_NATIVE()
@@ -569,8 +569,8 @@ object InstructionFactory {
       	new ANEW_ARRAY()
       case 0xbe =>
        	arraylength
-      // case 0xbf =>
-      // 	athrow
+      case 0xbf =>
+      	athrow
       case 0xc0 =>
         new CHECK_CAST()
       case 0xc1 =>

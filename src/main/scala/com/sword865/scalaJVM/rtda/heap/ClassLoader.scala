@@ -164,7 +164,10 @@ class ClassLoader(cp: classpath.ClassPath, verboseFlag: Boolean,
       case "D" =>
         val value = cp.getConstant(cpIndex).asInstanceOf[Double]
         vars.setDouble(slotId, value)
-      case "Ljava/lang/String;" => throw new Exception("to do")
+      case "Ljava/lang/String;" => //throw new Exception("to do")
+        val str = cp.getConstant(cpIndex).asInstanceOf[String]
+        val jStr = StringPool.JString(classStruct.loader, str)
+        vars.setRef(slotId, jStr)
     }
   }
 

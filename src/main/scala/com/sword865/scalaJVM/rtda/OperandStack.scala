@@ -159,4 +159,11 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
   def getRefFromTop(n:Int): heap.Object = {
     slots(size-1-n).asInstanceOf[heap.Object]
   }
+
+  def clear(): Unit ={
+    size = 0
+    for(i<-slots.indices){
+      slots(i) = null
+    }
+  }
 }

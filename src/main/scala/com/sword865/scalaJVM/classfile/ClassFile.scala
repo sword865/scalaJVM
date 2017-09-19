@@ -1,5 +1,7 @@
 package com.sword865.scalaJVM.classfile
 
+import com.sword865.scalaJVM.classfile.attributeInfos.SourceFileAttribute
+
 /**
   * Created by tianhaowei on 2017/9/6.
   */
@@ -49,6 +51,10 @@ object ClassFile {
 case class ClassFile(minorVersion: Int, majorVersion: Int, constantPool: ConstantPool, accessFlags: Int,
                      thisClass: Int, superClass: Int, interfaces: Array[Int], fields: Array[MemberInfo],
                      methods: Array[MemberInfo], attributes: Array[AttributeInfo]){
+  def sourceFileAttribute: SourceFileAttribute = {
+    attributes.find(_.isInstanceOf[SourceFileAttribute]).map(_.asInstanceOf[SourceFileAttribute]).orNull
+  }
+
 
   def className: String = constantPool.getClassName(thisClass)
 
