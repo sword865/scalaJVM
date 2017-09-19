@@ -1,9 +1,7 @@
 package com.sword865.scalaJVM.rtda
 
 import java.nio.ByteBuffer
-
 import scala.reflect.ClassTag
-import com.sword865.scalaJVM.rtda.heap.Object
 /**
   * Created by tianhaowei on 2017/9/8.
   */
@@ -21,6 +19,8 @@ object LocalVars {
 class LocalVars(slots: Array[Any]){
 
   override def toString: String = f"LocalVars(${slots.mkString(",")})"
+
+  override def clone(): AnyRef = new LocalVars(slots.clone())
 
   def apply(i: Int): Any = slots(i)
 
@@ -53,7 +53,7 @@ class LocalVars(slots: Array[Any]){
     }else if(ev == manifest[Long]) {
       setLong(index, value.asInstanceOf[Long])
     }else{
-      setRef(index, value.asInstanceOf[Object])
+      setRef(index, value.asInstanceOf[heap.Object])
     }
   }
 
@@ -103,15 +103,17 @@ class LocalVars(slots: Array[Any]){
     ByteBuffer.wrap(bytes).getDouble()
   }
 
-  def setRef(index: Int, value: Object): Unit = {
+  def setRef(index: Int, value: heap.Object): Unit = {
     slots(index) = value
   }
 
-  def getRef(index: Int): Object = {
-    slots(index).asInstanceOf[Object]
+  def getRef(index: Int): heap.Object = {
+    slots(index).asInstanceOf[heap.Object]
   }
 
   def setSlot(index: Int, value: Any): Unit = {
     slots(index) = value
   }
+
+  def getThis: heap.Object = getRef(0)
 }

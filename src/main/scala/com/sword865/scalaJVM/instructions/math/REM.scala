@@ -1,7 +1,6 @@
 package com.sword865.scalaJVM.instructions.math
 import com.sword865.scalaJVM.instructions.math.REM._
-
-import com.sword865.scalaJVM.instructions.base.Index8Instruction
+import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction
 import com.sword865.scalaJVM.rtda.Frame
 
 import scala.reflect.ClassTag
@@ -27,7 +26,7 @@ object REM {
 }
 
 abstract class REM[@specialized(Double, Float, Int, Long) T](implicit val ev: ClassTag[T])
-  extends Index8Instruction{
+  extends NoOperandsInstruction{
 
   def rem(v1: T, v2: T): T
 
@@ -40,6 +39,6 @@ abstract class REM[@specialized(Double, Float, Int, Long) T](implicit val ev: Cl
     if(v2 == zero){
       throw new Exception("rem on zero value")
     }
-    rem(v1, v2)
+    stack.push(rem(v1, v2))
   }
 }

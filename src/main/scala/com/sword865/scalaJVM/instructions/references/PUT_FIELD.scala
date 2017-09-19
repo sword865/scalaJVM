@@ -15,7 +15,7 @@ class PUT_FIELD extends Index16Instruction{
       throw new Exception("java.lang.IncompatibleClassChangeError")
     }
     if (field.isFinal) {
-      if (currentClass != field.classStruct || currentMethod.name != "<clinit>") {
+      if (currentClass != field.classStruct || currentMethod.name != "<init>") {
         throw new Exception("java.lang.IllegalAccessError")
       }
     }

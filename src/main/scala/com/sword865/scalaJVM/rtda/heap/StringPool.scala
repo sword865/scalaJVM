@@ -9,6 +9,12 @@ import scala.collection.mutable.{Map=>MMap}
 object StringPool {
   var internedStrings:MMap[String, heap.Object] = MMap[String, heap.Object]()
 
+  def internString(jStr: Object): heap.Object = {
+    val str = getString(jStr)
+    internedStrings.getOrElseUpdate(str, jStr)
+  }
+
+
   def JString(loader: ClassLoader, str: String): heap.Object = {
     val internedStr = internedStrings.get(str)
     if(internedStr.isDefined){

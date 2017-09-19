@@ -42,7 +42,6 @@ object Interpret {
         val frame = thread.currentFrame()
         val pc = frame.nextPC
         thread.pc = pc
-
         //decode
         reader.reset(frame.method.code, pc)
         val opcode = reader.readUInt8()

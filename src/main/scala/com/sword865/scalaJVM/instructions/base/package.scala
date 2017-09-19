@@ -17,14 +17,14 @@ package object base {
         newFrame.localVars.setSlot(i, slot)
       })
     }
-    //hacker
-    if(method.isNative){
-      if(method.name=="registerNatives" ){
-        thread.popFrame()
-      }else{
-        throw new Exception(s"native method: ${method.classStruct.name}.${method.name}${method.descriptor}")
-      }
-    }
+//    //hacker
+//    if(method.isNative){
+//      if(method.name=="registerNatives" ){
+//        thread.popFrame()
+//      }else{
+//        throw new Exception(s"native method: ${method.classStruct.name}.${method.name}${method.descriptor}")
+//      }
+//    }
   }
 
   def scheduleClinit(thread: rtda.Thread, classStruct: ClassStruct):Unit = {

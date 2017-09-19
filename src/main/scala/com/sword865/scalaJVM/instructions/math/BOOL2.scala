@@ -35,6 +35,6 @@ abstract class BOOL2[@specialized(Int, Long) T](implicit val ev: ClassTag[T])
     val stack = frame.operandStack
     val v1 = stack.pop[T]
     val v2 = stack.pop[T]
-    op(v1, v2)
+    stack.push(op(v1, v2))
   }
 }

@@ -4,6 +4,37 @@ import scala.reflect.ClassTag
 
 object Object{
 
+  def arrayCopy(src: Object, dest: Object, srcPos: Int, destPos: Int, length: Int): Unit = {
+    src.data match{
+      case arr: Array[Byte] =>
+        val arr2 = dest.data.asInstanceOf[Array[Byte]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case arr: Array[Short] =>
+        val arr2 = dest.data.asInstanceOf[Array[Short]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case arr: Array[Int] =>
+        val arr2 = dest.data.asInstanceOf[Array[Int]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case arr: Array[Long] =>
+        val arr2 = dest.data.asInstanceOf[Array[Long]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case arr: Array[Char] =>
+        val arr2 = dest.data.asInstanceOf[Array[Char]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case arr: Array[Float] =>
+        val arr2 = dest.data.asInstanceOf[Array[Float]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case arr: Array[Double] =>
+        val arr2 = dest.data.asInstanceOf[Array[Double]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case arr: Array[Object] =>
+        val arr2 = dest.data.asInstanceOf[Array[Object]]
+        arr.slice(srcPos, srcPos+length).copyToArray(arr2, destPos, length)
+      case _ => throw new Exception("Not a array!")
+    }
+  }
+
+
   def apply(classStruct: ClassStruct): Object = {
     new Object(classStruct, Slots(classStruct.instanceSlotCount))
   }
@@ -54,6 +85,24 @@ class Object(val classStruct: ClassStruct, private val data: Any) {
     val field = classStruct.getField(name, descriptor, isStatic = false)
     val slots = data.asInstanceOf[Slots]
     slots.setRef(field.slotId, ref)
+  }
+
+  def cloneData(): Any = {
+    data match{
+      case arr: Array[Byte] => arr.clone()
+      case arr: Array[Short] => arr.clone()
+      case arr: Array[Int] => arr.clone()
+      case arr: Array[Long] => arr.clone()
+      case arr: Array[Char] => arr.clone()
+      case arr: Array[Float] => arr.clone()
+      case arr: Array[Double] => arr.clone()
+      case arr: Array[Object] => arr.clone()
+      case slot: Slots => slot.clone()
+    }
+  }
+
+  override def clone(): Object ={
+    new Object(classStruct, cloneData())
   }
 
 }

@@ -9,7 +9,7 @@ package object native {
 
   var registry: MMap[String, NativeMethod] = MMap[String, NativeMethod]()
 
-  def emptyNativeMethod: NativeMethod = {}
+  def emptyNativeMethod(frame: rtda.Frame): Unit = {}
 
   def register(className: String, methodName: String, methodDescriptor: String, method: NativeMethod): Unit = {
     val key =  s"$className~$methodName~$methodDescriptor"

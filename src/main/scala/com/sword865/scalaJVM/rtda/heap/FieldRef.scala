@@ -36,7 +36,7 @@ class FieldRef(cp: ConstantPool = null) extends MemberRef(cp){
     if(f.isDefined){
       f.get
     }else{
-      val f1 = c.interfaces.toStream.map(f=>lookupField(f, name, descriptor)).filter(_!=null).headOption
+      val f1 = c.interfaces.toStream.map(f=>lookupField(f, name, descriptor)).find(_!=null)
       if(f1.isDefined){
         f1.get
       }else if(c.superClass != null){

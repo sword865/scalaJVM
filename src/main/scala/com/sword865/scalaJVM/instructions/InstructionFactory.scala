@@ -29,6 +29,7 @@ import com.sword865.scalaJVM.instructions.math.NEG._
 import com.sword865.scalaJVM.instructions.math.BOOL2._
 import com.sword865.scalaJVM.instructions.math.SH._
 import com.sword865.scalaJVM.instructions.references._
+import com.sword865.scalaJVM.instructions.reserved.INVOKE_NATIVE
 import com.sword865.scalaJVM.instructions.stack.DUP_N_X._
 import com.sword865.scalaJVM.instructions.stack.POP_N._
 import com.sword865.scalaJVM.instructions.stack.SWAP
@@ -182,7 +183,7 @@ object InstructionFactory {
   // val athrow        = new ATHROW()
   // val monitorenter  = new MONITOR_ENTER()
   // val monitorexit   = new MONITOR_EXIT()
-  // val invoke_native = new INVOKE_NATIVE()
+  val invoke_native = new INVOKE_NATIVE()
 
   def newInstruction(opcode: Short): Instruction = {
     opcode match {
@@ -591,7 +592,7 @@ object InstructionFactory {
       // case 0xc9 =>
       // 	new JSR_W()
       // case 0xca => breakpoint
-      // case 0xfe => impdep1
+      case 0xfe => invoke_native
       // case 0xff => impdep2
       case _ =>
         throw new Exception(f"Unsupported opcode => 0x$opcode%x!")

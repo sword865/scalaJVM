@@ -71,12 +71,16 @@ object ClassStruct {
 
 
 class ClassStruct(val accessFlags: Int, val name: String, val superClassName: String,
-                  val interfaceNames: Array[String]=null, var initStarted: Boolean = false,
-                  var fields: Array[Field] = null, var methods: Array[Method] = null,
+                  val interfaceNames: Array[String]=Array[String](), var initStarted: Boolean = false,
+                  var fields: Array[Field] = Array[Field](), var methods: Array[Method] = Array[Method](),
                   var loader: ClassLoader = null, var superClass: ClassStruct = null,
-                  var interfaces: Array[ClassStruct] = null, var instanceSlotCount: Int = 0,
+                  var interfaces: Array[ClassStruct] = Array[ClassStruct](), var instanceSlotCount: Int = 0,
                   var staticSlotCount: Int = 0, var staticVars: Slots = null,
                   var constantPool: ConstantPool = null, var jClass: heap.Object = null) {
+
+  def isPrimitive: Boolean = {
+    ClassStruct.primitiveTypes.contains(name)
+  }
 
   def isJioSerializable: Boolean = name == "java/io/Serializable"
 
@@ -111,6 +115,10 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
   }
   def isEnum: Boolean = {
     0 != (accessFlags&ACC_ENUM)
+  }
+
+  def javaName: String = {
+    name.replaceAll("/", ".")
   }
   
 
@@ -260,6 +268,19 @@ class ClassStruct(val accessFlags: Int, val name: String, val superClassName: St
   def componentClass(): ClassStruct = {
     val componentClassName = ClassStruct.getComponentClassName(name)
     loader.loadClass(componentClassName)
+  }
+
+  def getInstanceMethod(name: String, descriptor: String): Method = {
+    getMethod(name, descriptor, false)
+  }
+
+  def getRefVar(fieldName: String, fieldDescriptor: String):  heap.Object ={
+    val field = getField(fieldName, fieldDescriptor, true)
+    staticVars.getRef(field.slotId)
+  }
+  def setRefVar(fieldName: String, fieldDescriptor: String, ref: heap.Object) {
+    val field = getField(fieldName, fieldDescriptor, true)
+    staticVars.setRef(field.slotId, ref)
   }
 
 }

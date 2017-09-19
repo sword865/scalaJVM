@@ -22,7 +22,10 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
   override def toString: String = f"OperandStack(size=$size, value=${slots.mkString(",")})"
 
   def pop[T](implicit ev: ClassTag[T]): T ={
-    val value = if(ev == manifest[Byte]) {
+    //print(s"pop $ev, size=$size  ")
+    val value = if(ev == manifest[Boolean]){
+      popBoolean()
+    } else if(ev == manifest[Byte]) {
      popInt().toByte
     }else if(ev == manifest[Char]){
      popInt().toChar
@@ -41,11 +44,15 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     }else{
       throw new Exception(s"unknow pop type")
     }
+    //println(s"after pop $ev, size=$size")
     value.asInstanceOf[T]
   }
 
   def push[T](value: T)(implicit ev: ClassTag[T]): Unit ={
-    if(ev == manifest[Byte]) {
+    //print(s"push $ev, size=$size  ")
+    if(ev == manifest[Boolean]) {
+      pushBoolean(value.asInstanceOf[Boolean])
+    } else if(ev == manifest[Byte]) {
       pushInt(value.asInstanceOf[Byte].toInt)
     }else if(ev == manifest[Char]){
       pushInt(value.asInstanceOf[Char].toInt)
@@ -64,6 +71,15 @@ class OperandStack(slots: Array[Any], var size: Int = 0) {
     }else{
       throw new Exception(s"unknow push type: $value")
     }
+    //println(s"after push $ev, size=$size")
+  }
+
+  def pushBoolean(value: Boolean): Unit ={
+    if(value) pushInt(1) else pushInt(0)
+  }
+
+  def popBoolean(): Boolean = {
+    popInt() == 1
   }
 
   def pushInt(value: Int): Unit ={

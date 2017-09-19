@@ -1,6 +1,6 @@
 package com.sword865.scalaJVM.instructions.math
 
-import com.sword865.scalaJVM.instructions.base.Index8Instruction
+import com.sword865.scalaJVM.instructions.base.NoOperandsInstruction
 
 import scala.reflect.ClassTag
 import com.sword865.scalaJVM.instructions.math.SH._
@@ -35,7 +35,7 @@ object SH {
 }
 
 abstract class SH[@specialized(Int, Long) T](implicit val ev: ClassTag[T])
-  extends Index8Instruction{
+  extends NoOperandsInstruction{
 
   def move(v1: T, v2:Int): T
 
